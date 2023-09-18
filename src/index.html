@@ -45,63 +45,61 @@
                 <div class="row">
                     <div class="col s4">
                         <div class="card horizontal">
-                            <div class="card-stacked">
+                            <div class="card-stacked" style="height: 500px">
                                 <div class="card-content">
                                     <h5>Authorization Code Flow</h5>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-                                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
-                                    aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                                    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                    <p>OAuth 2.0 protocol designed for web applications that can securely store client secrets.
+                                    The application directs users to an authorization server to log in and grant permissions. Upon consent, the server
+                                    issues an authorization code. The application then exchanges this code for an access token in a server-to-server
+                                    request, using its client ID, client secret, and redirection URI. This flow ensures the access token is never directly
+                                    exposed to users, offering enhanced security. It's best suited for server-side web applications with the capability to
+                                    protect the client secret.</p>
                                 </div>
                                 <div class="card-action">
-                                    <a href="#">Try it</a>
+                                    <a onclick="loadAuthorizationCodeFlowPage()">Try it</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col s4">
                         <div class="card horizontal">
-                            <div class="card-stacked">
+                            <div class="card-stacked" style="height: 500px">
                                 <div class="card-content">
                                     <h5>Device Authorization Grant</h5>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                                        et dolore magna
-                                        aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                        commodo consequat. Duis
-                                        aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                                        Excepteur sint
-                                        occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                    <p>OAuth 2.0 flow optimized for devices that either lack a browser or have limited input
+                                    capabilities, such as smart TVs, game consoles, and certain IoT devices. In this flow, the device makes a request to the
+                                    authorization server and receives a unique user code and a verification URL. The user then accesses this URL on a
+                                    separate device with a browser, like a smartphone or computer, and enters the user code. After successfully logging in
+                                    and providing consent, the device polls the authorization server to obtain an access token. This method ensures a
+                                    streamlined user experience for devices with restricted input or display capabilities, allowing them to access protected
+                                    resources without the need for intricate user interactions.</p>
                                 </div>
                                 <div class="card-action">
-                                    <a href="#">Try it</a>
+                                    <a onclick="loadDeviceAuthorizationGrantPage()">Try it</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col s4">
                         <div class="card horizontal">
-                            <div class="card-stacked">
+                            <div class="card-stacked" style="height: 500px">
                                 <div class="card-content">
                                     <h5>WebAuthN</h5>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                                        et dolore magna
-                                        aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                        commodo consequat. Duis
-                                        aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                                        Excepteur sint
-                                        occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                    <p>This protocol leverages public key cryptography and allows users to authenticate using biometrics, mobile devices, or
+                                    FIDO security keys, instead of traditional passwords. When a user registers with a website, a unique key pair is
+                                    generated: the private key stays securely on the user's device, and the public key is registered with the website. For
+                                    subsequent logins, the website challenges the user to prove ownership of the private key, typically by prompting for a
+                                    biometric or a physical action on a security key. WebAuthn enhances user security by reducing reliance on easily
+                                    compromised passwords and defending against phishing attacks.</p>
                                 </div>
                                 <div class="card-action">
-                                    <a href="#">Try it</a>
+                                    <a onclick="loadWebAuthNPage()">Try it</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-
-
         </div>
     </main>
     <footer class="page-footer">
@@ -137,7 +135,17 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script>
-        
+        function loadAuthorizationCodeFlowPage() {
+            $("main").load("pages/authorization_code_flow.html");
+        }
+
+        function loadDeviceAuthorizationGrantPage() {
+            $("main").load("pages/device-authorization-grant.html");
+        }
+
+        function loadWebAuthNPage() {
+            $("main").load("pages/webauthn.html");
+        }
     </script>
 </body>
 </html>
