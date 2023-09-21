@@ -55,31 +55,33 @@
                         <div class="card-stacked">
                             <div class="card-content">
                                 <h6>3. Exchange the code for token</h6>
-        
-                                <pre class="code-block"><code id="requestExample"></code></pre>
-                                <h6>Let's break it down, line by line...</h6>
+                                <p>Now that we have the authorization code, we can exchange it for an access token. This is done by sending a <b>POST</b> request to the token endpoint.</p>
+                                <pre class="code-block"><code id="requestUriExample"></code></pre>
+                                <p>With body data</p>
+                                <pre class="code-block"><code id="requestBodyExample"></code></pre>
+                                <h6>Let's break it down...</h6>
                                 <ul class="collection">
                                     <li class="collection-item">
-                                        <p><b>https://sso.rumbuddy.cz/realms/OAuthPlayground/protocol/openid-connect/token</b>
+                                        <p><b><span id="tokenUrl"></span></b>
                                         </p>
                                         <p>The token endpoint URL</p>
                                     </li>
                                     <li class="collection-item">
-                                        <p><b><span class="emphasis">grant_type</span>=authorization_code</b></p>
+                                        <p><b><span class="emphasis">grant_type</span>=<span id="grantType"></span></b></p>
                                         <p>The grant type, in this case <b>authorization_code</b></p>
                                     </li>
                                     <li class="collection-item">
-                                        <p><b><span class="emphasis">client_id</span>=oauth-playground</b></p>
+                                        <p><b><span class="emphasis">client_id</span>=<span id="clientId"></span></b></p>
                                         <p>Client ID of the application. This is a public identifier for the client, and it is
                                             used by the authorization server to identify the application
                                             when redirecting the user back to the client.</p>
                                     </li>
                                     <li class="collection-item">
-                                        <p><b><span class="emphasis">redirect_uri</span>=http://localhost:5555/flow/code-2</b></p>
+                                        <p><b><span class="emphasis">redirect_uri</span>=<span id="redirectUri"></span></b></p>
                                         <p>The redirect URI</p>
                                     </li>
                                     <li class="collection-item">
-                                        <p><b><span class="emphasis">code</span>=--Vto71vecBQbZnbA7ErehWHVQq4x1pm5YtA9Rr7x5zjhMGS</b></p>
+                                        <p><b><span class="emphasis">code</span>=<span id="code"></span></b></p>
                                         <p>This is the authorization code we got in the previous step and is used to obtain the
                                             access token.</p>
                                     </li>
@@ -108,13 +110,19 @@
 
         function fillRequestExample() {
             const requestExample = 
-                "POST https://sso.rumbuddy.cz/realms/OAuthPlayground/protocol/openid-connect/token?" + "\n\n"
-                + "grant_type=authorization_code" + "\n"
+                "grant_type=authorization_code" + "\n"
                 + "&client_id=" + clientID + "\n"
                 + "&redirect_uri=" + getRedirectUri() + "\n"
                 + "&code=" + code;
 
-            $("#requestExample").text(requestExample);
+            $("#requestUriExample").text(tokenEndpoint);
+            $("#requestBodyExample").text(requestExample);
+
+            $("#tokenUrl").text(tokenEndpoint);
+            $("#grantType").text("authorization_code");
+            $("#clientId").text(clientID);
+            $("#redirectUri").text(getRedirectUri());
+            $("#code").text(code);
         }
 
         function getRedirectUri() {
@@ -139,7 +147,6 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data); // This will print the access token if the request was successful
                     $("#token").text(JSON.stringify(data, null, 2));
                 })
                 .catch(error => {
