@@ -145,12 +145,18 @@
                 + "&" + "state=" + state;
         }
 
+        function getRedirectUri() {
+            return window.location.protocol + "//" + window.location.host + "/flow/code-2";
+        }
+
         const baseUrl = "https://sso.rumbuddy.cz/realms/OAuthPlayground/protocol/openid-connect/auth";
         const responseType = "code";
         const clientId = "oauth-playground";
-        const redirectUri = "http://localhost:5555/flow/code-2";
+        const redirectUri = getRedirectUri();
         const scope = "offline_access";
         const state = generateSessionState();
+
+console.debug(window.location);
 
         $("#sendRequestBtn").attr("href", constructRequestUrl());
 

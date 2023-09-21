@@ -102,29 +102,32 @@
         $(".page-footer").load("../layout/footer.html");
         $("#page-header").load("../layout/header.html");
 
+        const tokenEndpoint = 'https://sso.rumbuddy.cz/realms/OAuthPlayground/protocol/openid-connect/token';
+        const clientID = 'oauth-playground';
+        const code = new URLSearchParams(window.location.search).get('code');
+
         function fillRequestExample() {
             const requestExample = 
                 "POST https://sso.rumbuddy.cz/realms/OAuthPlayground/protocol/openid-connect/token?" + "\n\n"
                 + "grant_type=authorization_code" + "\n"
-                + "&client_id=oauth-playground" + "\n"
-                + "&redirect_uri=http://localhost:5555/flow/code-2" + "\n"
-                + "&code=--Vto71vecBQbZnbA7ErehWHVQq4x1pm5YtA9Rr7x5zjhMGS";
+                + "&client_id=" + clientID + "\n"
+                + "&redirect_uri=" + getRedirectUri() + "\n"
+                + "&code=" + code;
 
             $("#requestExample").text(requestExample);
         }
 
-        function getToken() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const code = urlParams.get('code');
+        function getRedirectUri() {
+            return window.location.protocol + "//" + window.location.host + "/flow/code-2";
+        }
 
-            const tokenEndpoint = 'https://sso.rumbuddy.cz/realms/OAuthPlayground/protocol/openid-connect/token';
-            const clientID = 'oauth-playground';
-            const redirectURI = 'http://localhost:5555/flow/code-2';
+        function getToken() {
+            const redirectURI = getRedirectUri();
 
             const bodyData = new URLSearchParams();
             bodyData.append('grant_type', 'authorization_code');
             bodyData.append('client_id', clientID);
-            bodyData.append('redirect_uri', redirectURI);
+            bodyData.append('redirect_uri', getRedirectUri());
             bodyData.append('code', code);
 
             fetch(tokenEndpoint, {
