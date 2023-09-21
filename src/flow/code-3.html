@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OAuth 2.0 Playground</title>
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link type="text/css" rel="stylesheet" href="../css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</head>
+
+<body>
+    <header id="page-header"></header>
+    <main>
+        <div class="container">
+            <div class="section">
+                <h3 class="header" style="text-align: center;">Authorization Code Flow</h3>
+                <div class="circle-container">
+                    <div class="circle">
+                        1
+                    </div>
+                    <div class="line"></div>
+                    <div class="circle">
+                        2
+                    </div>
+                    <div class="line"></div>
+                    <div class="circle">
+                        3
+                    </div>
+                </div>
+        
+                <div class="row">
+                    <div class="col s4 circle-text">
+                        Build the authorization URL and redirect the user to the authorization server
+                    </div>
+                    <div class="col s4 circle-text">
+                        After the user is redirected back to the client, verify the state matches
+                    </div>
+                    <div class="col s4 circle-text">
+                        Exchange the authorization code for an access token
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="col s12 m7">
+                    <div class="card horizontal">
+                        <div class="card-stacked">
+                            <div class="card-content">
+                                <h6>3. Exchange the code for token</h6>
+        
+                                <pre class="code-block"><code id="requestExample"></code></pre>
+                                <h6>Let's break it down, line by line...</h6>
+                                <ul class="collection">
+                                    <li class="collection-item">
+                                        <p><b>https://sso.rumbuddy.cz/realms/OAuthPlayground/protocol/openid-connect/token</b>
+                                        </p>
+                                        <p>The token endpoint URL</p>
+                                    </li>
+                                    <li class="collection-item">
+                                        <p><b><span class="emphasis">grant_type</span>=authorization_code</b></p>
+                                        <p>The grant type, in this case <b>authorization_code</b></p>
+                                    </li>
+                                    <li class="collection-item">
+                                        <p><b><span class="emphasis">client_id</span>=oauth-playground</b></p>
+                                        <p>Client ID of the application. This is a public identifier for the client, and it is
+                                            used by the authorization server to identify the application
+                                            when redirecting the user back to the client.</p>
+                                    </li>
+                                    <li class="collection-item">
+                                        <p><b><span class="emphasis">redirect_uri</span>=http://localhost:5555/flow/code-2</b></p>
+                                        <p>The redirect URI</p>
+                                    </li>
+                                    <li class="collection-item">
+                                        <p><b><span class="emphasis">code</span>=--Vto71vecBQbZnbA7ErehWHVQq4x1pm5YtA9Rr7x5zjhMGS</b></p>
+                                        <p>This is the authorization code we got in the previous step and is used to obtain the
+                                            access token.</p>
+                                    </li>
+                                </ul>
+                                <div class="row" style="text-align: center; margin-top: 25px;">
+                                    <a style="width: 20%" class="waves-effect waves-light btn"
+                                        onClick="getToken()">Get token</a>
+                                </div>
+
+                                <pre class="code-block"><code id="token"></code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="page-footer"></footer>
+    <script>
+        $(".page-footer").load("../layout/footer.html");
+        $("#page-header").load("../layout/header.html");
+
+        function fillRequestExample() {
+            const requestExample = 
+                "POST https://sso.rumbuddy.cz/realms/OAuthPlayground/protocol/openid-connect/token?" + "\n\n"
+                + "grant_type=authorization_code" + "\n"
+                + "&client_id=oauth-playground" + "\n"
+                + "&redirect_uri=http://localhost:5555/flow/code-2" + "\n"
+                + "&code=--Vto71vecBQbZnbA7ErehWHVQq4x1pm5YtA9Rr7x5zjhMGS";
+
+            $("#requestExample").text(requestExample);
+        }
+
+        function getToken() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+
+            const tokenEndpoint = 'https://sso.rumbuddy.cz/realms/OAuthPlayground/protocol/openid-connect/token';
+            const clientID = 'oauth-playground';
+            const redirectURI = 'http://localhost:5555/flow/code-2';
+
+            const bodyData = new URLSearchParams();
+            bodyData.append('grant_type', 'authorization_code');
+            bodyData.append('client_id', clientID);
+            bodyData.append('redirect_uri', redirectURI);
+            bodyData.append('code', code);
+
+            fetch(tokenEndpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                },
+                body: bodyData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data); // This will print the access token if the request was successful
+                    $("#token").text(JSON.stringify(data, null, 2));
+                })
+                .catch(error => {
+                    console.error('Error fetching the token:', error);
+                });
+        }
+
+        fillRequestExample();
+    </script>
+</body>
+</html>

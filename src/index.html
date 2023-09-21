@@ -12,31 +12,23 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="nav-wrapper">
-                <a href="/" class="brand-logo center">
-                    OAuth 2.0 Playground
-                    <span style="font-size: 15px; color:#FF6600; font-weight:bold;">by Y Soft</span>
-                </a>
-            </div>
-        </nav>
+    <header id="page-header">
     </header>
     <main>
         <div class="container">
             <div class="section">
-                <h3 class="header" style="text-align: center;">Lorem Ipsum</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-                aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
-                aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis
-                    aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                    occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <h3 class="header" style="text-align: center;">Welcome to OAuth 2.0 Playground</h3>
+                <p>This playground serves as an interactive platform designed to familiarize developers and students with the
+                intricacies of OAuth authentication processes. Beyond just theoretical knowledge, this playground provides practical
+                insights into the OAuth token exchange,
+                callback handling, and potential pitfalls or challenges one might face during real-world integrations. The ultimate aim
+                is to bolster
+                understanding and confidence in implementing OAuth, ensuring secure and efficient user authentication and authorization
+                in modern web applications.</p>
             </div>
 
             <div class="section">
@@ -57,7 +49,7 @@
                                     protect the client secret.</p>
                                 </div>
                                 <div class="card-action">
-                                    <a onclick="loadAuthorizationCodeFlowPage()">Try it</a>
+                                    <a href="/flow/code-1">Try it</a>
                                 </div>
                             </div>
                         </div>
@@ -76,7 +68,7 @@
                                     resources without the need for intricate user interactions.</p>
                                 </div>
                                 <div class="card-action">
-                                    <a onclick="loadDeviceAuthorizationGrantPage()">Try it</a>
+                                    <!--<a onclick="loadWebAuthNPage()">Try it</a>-->
                                 </div>
                             </div>
                         </div>
@@ -94,7 +86,7 @@
                                     compromised passwords and defending against phishing attacks.</p>
                                 </div>
                                 <div class="card-action">
-                                    <a onclick="loadWebAuthNPage()">Try it</a>
+                                    <!--<a onclick="loadWebAuthNPage()">Try it</a>-->
                                 </div>
                             </div>
                         </div>
@@ -103,50 +95,10 @@
             </div>
         </div>
     </main>
-    <footer class="page-footer">
-        <div class="container">
-            <div class="row">
-                <div class="col l6 s12">
-                    <h5 class="white-text">OAuth Playground</h5>
-                    <p class="grey-text text-lighten-4">This playground serves as an interactive platform designed to familiarize developers and students with the
-                    intricacies of OAuth authentication processes. Beyond just theoretical knowledge, this playground provides practical insights into the OAuth token exchange, 
-                    callback handling, and potential pitfalls or challenges one might face during real-world integrations. The ultimate aim is to bolster
-                    understanding and confidence in implementing OAuth, ensuring secure and efficient user authentication and authorization
-                    in modern web applications.
-                    </p>
-                </div>
-                <div class="col l4 offset-l2 s12">
-                    <h5 class="white-text">Links</h5>
-                    <ul>
-                        <li><a class="grey-text text-lighten-3" href="https://www.oauth.com/" target="_blank">OAuth 2.0 Simplified</a></li>
-                        <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
-                        <li><a class="grey-text text-lighten-3" href="https://en.wikipedia.org/wiki/OAuth" target="_blank">OAuth Wikipedia</a></li>
-                        <li><a class="grey-text text-lighten-3" href="https://www.ietf.org/rfc/rfc6749.txt" target="_blank">OAuth 2.0 RFC</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="footer-copyright">
-            <div class="container">
-                © 2023 Y Soft Corporation
-                <a class="grey-text text-lighten-4 right" style="color:#FF6600 !important; font-weight:bold;" href="https://www.daretothinkbyg.com" target="_blank">Join us today!</a>
-            </div>
-        </div>
-    </footer>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <footer class="page-footer"></footer>
     <script>
-        function loadAuthorizationCodeFlowPage() {
-            $("main").load("pages/authorization-code-flow.html");
-        }
-
-        function loadDeviceAuthorizationGrantPage() {
-            $("main").load("pages/device-authorization-grant.html");
-        }
-
-        function loadWebAuthNPage() {
-            $("main").load("pages/webauthn.html");
-        }
+        $(".page-footer").load("layout/footer.html");
+        $("#page-header").load("layout/header.html");
     </script>
 </body>
 </html>

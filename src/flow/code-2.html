@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OAuth 2.0 Playground</title>
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link type="text/css" rel="stylesheet" href="../css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</head>
+
+<body>
+    <header id="page-header"></header>
+    <main>
+        <div class="container">
+            <div class="section">
+                <h3 class="header" style="text-align: center;">Authorization Code Flow</h3>
+                <div class="circle-container">
+                    <div class="circle">
+                        1
+                    </div>
+                    <div class="line"></div>
+                    <div class="circle">
+                        2
+                    </div>
+                    <div class="line line-inactive"></div>
+                    <div class="circle circle-inactive">
+                        3
+                    </div>
+                </div>
+        
+                <div class="row">
+                    <div class="col s4 circle-text">
+                        Build the authorization URL and redirect the user to the authorization server
+                    </div>
+                    <div class="col s4 circle-text">
+                        After the user is redirected back to the client, verify the state matches
+                    </div>
+                    <div class="col s4 circle-text">
+                        Exchange the authorization code for an access token
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="col s12 m7">
+                    <div class="card horizontal">
+                        <div class="card-stacked">
+                            <div class="card-content">
+                                <h6>2. Verify the state parameter</h6>
+        
+                                <p>You have now been redirected back to the application, to the page that was specified in the <b>redirect-url</b> parameter. In the URL you can notice, that there are addtional query parameters:</p>
+                                <pre class="code-block"><code id="queryParams"></code></pre>
+                                <h6>Let's break it down...</h6>
+                                <ul class="collection">
+                                    <li class="collection-item">
+                                        <p><b><span class="emphasis">state</span>=<span id="state"></span></b></p>
+                                        <p>This is the state parameter that was sent in the initial request. It is used to prevent CSRF attacks.</p>
+                                    </li>
+                                    <li class="collection-item">
+                                        <p><b><span class="emphasis">session_state</span>=<span id="sessionState"></span></b></p>
+                                        <p>Session state is a parameter that is used to maintain state between the request and callback. It is used to prevent CSRF attacks.</p>
+                                    </li>
+                                    <li class="collection-item">
+                                        <p><b><span class="emphasis">code</span>=<span id="code"></span></b></p>
+                                        <p>This is the authorization code that will be exchanged for an access token.</p>
+                                    </li>
+                                </ul>
+
+                                <p>Now we have everything necessary to obtain token for the user. But is the state we have sent equivalent to the one we received back?</p>
+
+                                <div class="row" style="text-align: center; margin-top: 25px;">
+                                    <a style="width: 20%" class="waves-effect waves-light btn"
+                                        onclick="proceedToNextStep()">States are matching</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="page-footer"></footer>
+    <script>
+        $(".page-footer").load("../layout/footer.html");
+        $("#page-header").load("../layout/header.html");
+
+        $("#queryParams").text(window.location.search)
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        const state = urlParams.get('state');
+        const sessionState = urlParams.get('session_state');
+
+        $("#state").text(state);
+        $("#sessionState").text(sessionState);
+        $("#code").text(code);
+
+        function proceedToNextStep() {
+            window.location.href = "/flow/code-3" + window.location.search;
+        }
+    </script>
+</body>
+</html>

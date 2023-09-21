@@ -142,20 +142,33 @@ body {
     border-radius: 5px;
     /* rounded corners */
     padding: 20px;
-    /* space inside the block */
-    overflow-x: auto;
-    /* allow horizontal scrolling if code is too wide */
 }
 
 .code-block code {
     color: #333;
     /* dark text color for code */
     font-family: "Courier New", Courier, monospace;
-    /* monospace font */
-    white-space: pre;
-    /* keep whitespace as is */
 }
 
 .emphasis {
     color: #FF6600;
+}
+
+pre {
+    white-space: pre-wrap;
+    /* CSS3 */
+    white-space: -moz-pre-wrap;
+    /* Firefox */
+    white-space: -pre-wrap;
+    /* Opera <7 */
+    white-space: -o-pre-wrap;
+    /* Opera 7+ */
+    word-wrap: break-word;
+    /* IE */
+    overflow-wrap: break-word;
+    /* CSS3 */
+}
+
+.card-stacked {
+    width: 100%;
 }

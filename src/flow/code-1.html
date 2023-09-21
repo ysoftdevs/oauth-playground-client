@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OAuth 2.0 Playground</title>
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link type="text/css" rel="stylesheet" href="../css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</head>
+
+<body>
+    <header id="page-header"></header>
+    <main>
+        <div class="container">
+            <div class="section">
+                <h3 class="header" style="text-align: center;">Authorization Code Flow</h3>
+                <div class="circle-container">
+                    <div class="circle">
+                        1
+                    </div>
+                    <div class="line line-inactive"></div>
+                    <div class="circle circle-inactive">
+                        2
+                    </div>
+                    <div class="line line-inactive"></div>
+                    <div class="circle circle-inactive">
+                        3
+                    </div>
+                </div>
+        
+                <div class="row">
+                    <div class="col s4 circle-text">
+                        Build the authorization URL and redirect the user to the authorization server
+                    </div>
+                    <div class="col s4 circle-text">
+                        After the user is redirected back to the client, verify the state matches
+                    </div>
+                    <div class="col s4 circle-text">
+                        Exchange the authorization code for an access token
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="col s12 m7">
+                    <div class="card horizontal">
+                        <div class="card-stacked">
+                            <div class="card-content">
+                                <h6>1. Build the Authorization URL</h6>
+        
+                                <pre class="code-block"><code><span id="baseUrl"></span>?
+            &<span id="responseType"></span>
+            &<span id="clientId"></span>
+            &<span id="redirectUri"></span>
+            &<span id="scope"></span>
+            &<span id="state"></span></code></pre>
+                                <h6>Let's break it down...</h6>
+                                <ul class="collection">
+                                    <li class="collection-item">
+                                        <p><b><span id="baseUrlExpl"></span></b>
+                                        </p>
+                                        <p>URL of the authorization endpoint on the server. How is this path constructed will
+                                            differ between OAuth providers (such as Keycloak or Okta). to
+                                            find out the proper URL, there always exists
+                                            <b>/.well-known/openid-configuration</b> endpoint that contains all the necessary
+                                            information.
+                                        </p>
+                                    </li>
+                                    <li class="collection-item">
+                                        <p><b><span class="emphasis">response_type</span>=<span id="responseTypeExpl"></span></b></p>
+                                        <p>OAuth 2.0 response type. In this case, we are using the Authorization Code flow, so
+                                            we are requesting the authorization code.</p>
+                                    </li>
+                                    <li class="collection-item">
+                                        <p><b><span class="emphasis">client_id</span>=<span id="clientIdExpl"></span></b></p>
+                                        <p>Client ID of the application. This is a public identifier for the client, and it is
+                                            used by the authorization server to identify the application
+                                            when redirecting the user back to the client.</p>
+                                    </li>
+                                    <li class="collection-item">
+                                        <p><b><span class="emphasis">redirect_uri</span>=<span id="redirectUriExpl"></span></b></p>
+                                        <p>Redirect URI of the client. This is the URL that the authorization server will
+                                            redirect the user back to after the user has logged in and
+                                            granted permissions. The redirect URI must match one of the URIs registered for the
+                                            client ID.</p>
+                                    </li>
+                                    <li class="collection-item">
+                                        <p><b><span class="emphasis">scope</span>=<span id="scopeExpl"></span></b></p>
+                                        <p>Scopes requested by the client. Scopes are used to limit the access of the access
+                                            token. In this case, we are requesting the offline_access scope,
+                                            which allows the client to obtain a refresh token.</p>
+                                    </li>
+                                    <li class="collection-item">
+                                        <p><b><span class="emphasis">state</span>=<span id="stateExpl"></span></b></p>
+                                        <p>State parameter. This is an optional parameter that the client can use to maintain
+                                            state between the request and callback. The authorization
+                                            server includes this parameter when redirecting the user back to the client,
+                                            allowing the client to verify that the response is coming from the
+                                            server and not a malicious third party.</p>
+                                    </li>
+                                </ul>
+                                <div class="row" style="text-align: center; margin-top: 25px;">
+                                    <a id="sendRequestBtn" style="width: 20%" class="waves-effect waves-light btn"
+                                        href="#">Send request</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="page-footer"></footer>
+    <script>
+        $(".page-footer").load("../layout/footer.html");
+        $("#page-header").load("../layout/header.html");
+
+        function setCookie(name, value, minutes) {
+            const date = new Date();
+            date.setTime(date.getTime() + (minutes * 60 * 1000));
+            const expires = "; expires=" + date.toUTCString();
+            document.cookie = name + "=" + value + expires + "; path=/";
+        }
+
+        function generateSessionState () {
+            const sessionState = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+            setCookie("sessionState", sessionState, 15);
+            return sessionState;
+        }
+
+        function constructRequestUrl () {
+            return baseUrl 
+                + "?" + "response_type=" + responseType 
+                + "&" + "client_id=" + clientId 
+                + "&" + "redirect_uri=" + redirectUri 
+                + "&" + "scope=" + scope 
+                + "&" + "state=" + state;
+        }
+
+        const baseUrl = "https://sso.rumbuddy.cz/realms/OAuthPlayground/protocol/openid-connect/auth";
+        const responseType = "code";
+        const clientId = "oauth-playground";
+        const redirectUri = "http://localhost:5555/flow/code-2";
+        const scope = "offline_access";
+        const state = generateSessionState();
+
+        $("#sendRequestBtn").attr("href", constructRequestUrl());
+
+        $("#baseUrl").text(baseUrl);
+        $("#baseUrlExpl").text(baseUrl);
+        $("#responseType").text("response_type=" + responseType);
+        $("#responseTypeExpl").text(responseType);
+        $("#clientId").text("client_id=" + clientId);
+        $("#clientIdExpl").text(clientId);
+        $("#redirectUri").text("redirect_uri=" + redirectUri);
+        $("#redirectUriExpl").text(redirectUri);
+        $("#scope").text("scope=" + scope);
+        $("#scopeExpl").text(scope);
+        $("#state").text("state=" + state);
+        $("#stateExpl").text(state);
+    </script>
+</body>
+</html>
