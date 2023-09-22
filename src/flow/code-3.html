@@ -100,10 +100,8 @@
         </div>
     </main>
     <footer class="page-footer"></footer>
+    <script src="js/load-layout.js"></script>
     <script>
-        $(".page-footer").load("../layout/footer.html");
-        $("#page-header").load("../layout/header.html");
-
         const tokenEndpoint = 'https://sso.rumbuddy.cz/realms/OAuthPlayground/protocol/openid-connect/token';
         const clientID = 'oauth-playground';
         const code = new URLSearchParams(window.location.search).get('code');

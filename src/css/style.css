@@ -172,3 +172,20 @@ pre {
 .card-stacked {
     width: 100%;
 }
+
+.list>li {
+    list-style-type: circle !important;
+    margin-left: 20px;
+}
+
+.underConstruction {
+    color:#999999;
+}
+
+.flow-card {
+    height: 550px;
+}
+
+.section-header {
+    text-align: center;
+}

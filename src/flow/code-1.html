@@ -109,7 +109,7 @@
                                 </ul>
                                 <div class="row" style="text-align: center; margin-top: 25px;">
                                     <a id="sendRequestBtn" style="width: 20%" class="waves-effect waves-light btn"
-                                        href="#">Send request</a>
+                                        href="#">Authenticate</a>
                                 </div>
                             </div>
                         </div>
@@ -119,10 +119,8 @@
         </div>
     </main>
     <footer class="page-footer"></footer>
+    <script src="js/load-layout.js"></script>
     <script>
-        $(".page-footer").load("../layout/footer.html");
-        $("#page-header").load("../layout/header.html");
-
         function setCookie(name, value, minutes) {
             const date = new Date();
             date.setTime(date.getTime() + (minutes * 60 * 1000));

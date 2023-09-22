@@ -21,7 +21,7 @@
     <main>
         <div class="container">
             <div class="section">
-                <h3 class="header" style="text-align: center;">Welcome to OAuth 2.0 Playground</h3>
+                <h3 class="header section-header">Welcome to OAuth 2.0 Playground</h3>
                 <p>This playground serves as an interactive platform designed to familiarize developers and students with the
                 intricacies of OAuth authentication processes. Beyond just theoretical knowledge, this playground provides practical
                 insights into the OAuth token exchange,
@@ -29,16 +29,23 @@
                 is to bolster
                 understanding and confidence in implementing OAuth, ensuring secure and efficient user authentication and authorization
                 in modern web applications.</p>
+                <p>This project is an open-source initiative by Y Soft, as such we welcome any feedback or contributions at:</p>
+                <ul class="list">
+                    <li><b>Client side: </b><a 
+                        href="https://github.com/ysoftdevs/oauth-playground-client" target="_blank">ysoftdevs/oauth-playground-client</a></li>
+                    <li><b>Server side: </b><a
+                        href="https://github.com/ysoftdevs/oauth-playground-server" target="_blank">ysoftdevs/oauth-playground-server</a></li>
+                </ul>
             </div>
 
             <div class="section">
-                <h3 class="header" style="text-align: center;">Flows</h3>
+                <h3 class="header section-header">Flows</h3>
                 <div class="divider" style="margin-bottom: 10px;"></div>
                 
                 <div class="row">
                     <div class="col s4">
                         <div class="card horizontal">
-                            <div class="card-stacked" style="height: 500px">
+                            <div class="card-stacked flow-card">
                                 <div class="card-content">
                                     <h5>Authorization Code Flow</h5>
                                     <p>OAuth 2.0 protocol designed for web applications that can securely store client secrets.
@@ -56,7 +63,25 @@
                     </div>
                     <div class="col s4">
                         <div class="card horizontal">
-                            <div class="card-stacked" style="height: 500px">
+                            <div class="card-stacked flow-card">
+                                <div class="card-content">
+                                    <h5>PKCE</h5>
+                                    <p>Proof Key for Code Exchange is a security protocol for the OAuth 2.0 authorization framework, designed to prevent
+                                    interception attacks in the authorization code flow. It's especially crucial for mobile or single-page applications
+                                    where storing a client secret securely is challenging. In PKCE, the client creates a dynamic "code verifier" and its
+                                    transformed "code challenge." The server remembers this challenge, and when the authorization code is exchanged for an
+                                    access token, the client provides the original verifier. The server validates it against the stored challenge, ensuring
+                                    added security against malicious interceptions.</p>
+                                </div>
+                                <div class="card-action underConstruction">
+                                    <i class="tiny material-icons">build</i> Under construction
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s4">
+                        <div class="card horizontal">
+                            <div class="card-stacked flow-card">
                                 <div class="card-content">
                                     <h5>Device Authorization Grant</h5>
                                     <p>OAuth 2.0 flow optimized for devices that either lack a browser or have limited input
@@ -67,15 +92,35 @@
                                     streamlined user experience for devices with restricted input or display capabilities, allowing them to access protected
                                     resources without the need for intricate user interactions.</p>
                                 </div>
-                                <div class="card-action">
-                                    <!--<a onclick="loadWebAuthNPage()">Try it</a>-->
+                                <div class="card-action underConstruction">
+                                    <i class="tiny material-icons">build</i> Under construction
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col s4">
                         <div class="card horizontal">
-                            <div class="card-stacked" style="height: 500px">
+                            <div class="card-stacked flow-card">
+                                <div class="card-content">
+                                    <h5>CIBA</h5>
+                                    <p>Client Initiated Backchannel Authentication is a protocol extension for OAuth 2.0, tailored for scenarios where
+                                    the client, such as a financial institution or IoT device, initiates the authentication process without direct user
+                                    interaction on the client's platform. This is useful for "decoupled" authentication experiences, where, for instance, a
+                                    user might authenticate on their smartphone when prompted by a smart TV app. In CIBA, once the client requests
+                                    authentication, the authorization server prompts the user on a previously registered device, such as their mobile phone.
+                                    Upon successful authentication, the authorization server sends a token back to the client. This flow provides a seamless
+                                    and secure user experience, especially in contexts where traditional OAuth 2.0 interactions might be cumbersome or
+                                    impractical.</p>
+                                </div>
+                                <div class="card-action underConstruction">
+                                    <i class="tiny material-icons">build</i> Under construction
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s4">
+                        <div class="card horizontal">
+                            <div class="card-stacked flow-card">
                                 <div class="card-content">
                                     <h5>WebAuthN</h5>
                                     <p>This protocol leverages public key cryptography and allows users to authenticate using biometrics, mobile devices, or
@@ -85,8 +130,8 @@
                                     biometric or a physical action on a security key. WebAuthn enhances user security by reducing reliance on easily
                                     compromised passwords and defending against phishing attacks.</p>
                                 </div>
-                                <div class="card-action">
-                                    <!--<a onclick="loadWebAuthNPage()">Try it</a>-->
+                                <div class="card-action underConstruction">
+                                    <i class="tiny material-icons">build</i> Under construction
                                 </div>
                             </div>
                         </div>
@@ -96,9 +141,6 @@
         </div>
     </main>
     <footer class="page-footer"></footer>
-    <script>
-        $(".page-footer").load("layout/footer.html");
-        $("#page-header").load("layout/header.html");
-    </script>
+    <script src="js/load-layout.js"></script>
 </body>
 </html>

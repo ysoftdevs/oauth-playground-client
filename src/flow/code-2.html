@@ -88,10 +88,8 @@
         </div>
     </main>
     <footer class="page-footer"></footer>
+    <script src="js/load-layout.js"></script>
     <script>
-        $(".page-footer").load("../layout/footer.html");
-        $("#page-header").load("../layout/header.html");
-
         $("#queryParams").text(window.location.search)
 
         const urlParams = new URLSearchParams(window.location.search);
