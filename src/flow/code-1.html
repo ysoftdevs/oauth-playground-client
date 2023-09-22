@@ -55,17 +55,11 @@
                         <div class="card-stacked">
                             <div class="card-content">
                                 <h6>1. Build the Authorization URL</h6>
-        
-                                <pre class="code-block"><code><span id="baseUrl"></span>?
-            &<span id="responseType"></span>
-            &<span id="clientId"></span>
-            &<span id="redirectUri"></span>
-            &<span id="scope"></span>
-            &<span id="state"></span></code></pre>
+                                <pre class="code-block"><code id="requestUriExample"></code></pre>
                                 <h6>Let's break it down...</h6>
                                 <ul class="collection">
                                     <li class="collection-item">
-                                        <p><b><span id="baseUrlExpl"></span></b>
+                                        <p><b><span id="baseUrl"></span></b>
                                         </p>
                                         <p>URL of the authorization endpoint on the server. How is this path constructed will
                                             differ between OAuth providers (such as Keycloak or Okta). to
@@ -75,31 +69,31 @@
                                         </p>
                                     </li>
                                     <li class="collection-item">
-                                        <p><b><span class="emphasis">response_type</span>=<span id="responseTypeExpl"></span></b></p>
+                                        <p><b><span class="emphasis">response_type</span>=<span id="responseType"></span></b></p>
                                         <p>OAuth 2.0 response type. In this case, we are using the Authorization Code flow, so
                                             we are requesting the authorization code.</p>
                                     </li>
                                     <li class="collection-item">
-                                        <p><b><span class="emphasis">client_id</span>=<span id="clientIdExpl"></span></b></p>
+                                        <p><b><span class="emphasis">client_id</span>=<span id="clientId"></span></b></p>
                                         <p>Client ID of the application. This is a public identifier for the client, and it is
                                             used by the authorization server to identify the application
                                             when redirecting the user back to the client.</p>
                                     </li>
                                     <li class="collection-item">
-                                        <p><b><span class="emphasis">redirect_uri</span>=<span id="redirectUriExpl"></span></b></p>
+                                        <p><b><span class="emphasis">redirect_uri</span>=<span id="redirectUri"></span></b></p>
                                         <p>Redirect URI of the client. This is the URL that the authorization server will
                                             redirect the user back to after the user has logged in and
                                             granted permissions. The redirect URI must match one of the URIs registered for the
                                             client ID.</p>
                                     </li>
                                     <li class="collection-item">
-                                        <p><b><span class="emphasis">scope</span>=<span id="scopeExpl"></span></b></p>
+                                        <p><b><span class="emphasis">scope</span>=<span id="scope"></span></b></p>
                                         <p>Scopes requested by the client. Scopes are used to limit the access of the access
                                             token. In this case, we are requesting the offline_access scope,
                                             which allows the client to obtain a refresh token.</p>
                                     </li>
                                     <li class="collection-item">
-                                        <p><b><span class="emphasis">state</span>=<span id="stateExpl"></span></b></p>
+                                        <p><b><span class="emphasis">state</span>=<span id="state"></span></b></p>
                                         <p>State parameter. This is an optional parameter that the client can use to maintain
                                             state between the request and callback. The authorization
                                             server includes this parameter when redirecting the user back to the client,
@@ -116,10 +110,13 @@
                     </div>
                 </div>
             </div>
+            <div class="section centered">
+                <a href="/">[ Take me home ]</a>
+            </div>
         </div>
     </main>
     <footer class="page-footer"></footer>
-    <script src="js/load-layout.js"></script>
+    <script src="../js/load-layout.js"></script>
     <script>
         function setCookie(name, value, minutes) {
             const date = new Date();
@@ -143,6 +140,23 @@
                 + "&" + "state=" + state;
         }
 
+        function fillExample() {
+            const requestExample = baseUrl + "\n"
+                + "    ?response_type=" + responseType + "\n"
+                + "    &client_id=" + clientId + "\n"
+                + "    &redirect_uri=" + redirectUri + "\n"
+                + "    &scope=" + scope + "\n"
+                + "    &state=" + state;
+            
+            $("#requestUriExample").text(requestExample);
+            $("#baseUrl").text(baseUrl);
+            $("#responseType").text(responseType);
+            $("#clientId").text(clientId);
+            $("#redirectUri").text(redirectUri);
+            $("#scope").text(scope);
+            $("#state").text(state);
+        }
+
         function getRedirectUri() {
             return window.location.protocol + "//" + window.location.host + "/flow/code-2";
         }
@@ -154,22 +168,8 @@
         const scope = "offline_access";
         const state = generateSessionState();
 
-console.debug(window.location);
-
+        fillExample();
         $("#sendRequestBtn").attr("href", constructRequestUrl());
-
-        $("#baseUrl").text(baseUrl);
-        $("#baseUrlExpl").text(baseUrl);
-        $("#responseType").text("response_type=" + responseType);
-        $("#responseTypeExpl").text(responseType);
-        $("#clientId").text("client_id=" + clientId);
-        $("#clientIdExpl").text(clientId);
-        $("#redirectUri").text("redirect_uri=" + redirectUri);
-        $("#redirectUriExpl").text(redirectUri);
-        $("#scope").text("scope=" + scope);
-        $("#scopeExpl").text(scope);
-        $("#state").text("state=" + state);
-        $("#stateExpl").text(state);
     </script>
 </body>
 </html>
