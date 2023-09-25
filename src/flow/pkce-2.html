@@ -134,6 +134,7 @@
     <footer class="page-footer"></footer>
     <script src="../js/load-layout.js"></script>
     <script src="../js/cookies.js"></script>
+    <script src="../js/env-config.js"></script>
     <script>
         function generateSessionState () {
             return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
@@ -142,7 +143,7 @@
         function constructRequestUrl () {
             return baseUrl 
                 + "?" + "response_type=" + responseType 
-                + "&" + "client_id=" + clientId 
+                + "&" + "client_id=" + getClientId() 
                 + "&" + "redirect_uri=" + redirectUri 
                 + "&" + "scope=" + scope 
                 + "&" + "state=" + state
@@ -153,7 +154,7 @@
         function fillExample() {
             const requestExample = baseUrl + "\n"
                 + "    ?response_type=" + responseType + "\n"
-                + "    &client_id=" + clientId + "\n"
+                + "    &client_id=" + getClientId() + "\n"
                 + "    &redirect_uri=" + redirectUri + "\n"
                 + "    &scope=" + scope + "\n"
                 + "    &state=" + state + "\n"
@@ -163,7 +164,7 @@
             $("#requestUriExample").text(requestExample);
             $("#baseUrl").text(baseUrl);
             $("#responseType").text(responseType);
-            $("#clientId").text(clientId);
+            $("#clientId").text(getClientId());
             $("#redirectUri").text(redirectUri);
             $("#scope").text(scope);
             $("#state").text(state);
@@ -175,9 +176,7 @@
             return window.location.protocol + "//" + window.location.host + "/flow/pkce-3";
         }
 
-        const baseUrl = "https://www.sso.oauth-playground.online/auth";
         const responseType = "code";
-        const clientId = "oauth-playground";
         const redirectUri = getRedirectUri();
         const scope = "offline_access";
         const state = generateSessionState();

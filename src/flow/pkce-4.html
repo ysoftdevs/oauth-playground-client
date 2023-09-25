@@ -165,16 +165,16 @@
     <footer class="page-footer"></footer>
     <script src="../js/load-layout.js"></script>
     <script src="../js/cookies.js"></script>
+    <script src="../js/env-config.js"></script>
     <script>
-        const tokenEndpoint = 'https://www.sso.oauth-playground.online/auth/token';
-        const clientID = 'oauth-playground';
+        const tokenEndpoint = baseUrl + "/token";
         const code = new URLSearchParams(window.location.search).get('code');
         const codeVerifier = getCookie("code_verifier");
 
         function fillRequestExample() {
             const requestExample = 
                 "grant_type=authorization_code" + "\n"
-                + "&client_id=" + clientID + "\n"
+                + "&client_id=" + getClientId() + "\n"
                 + "&redirect_uri=" + getRedirectUri() + "\n"
                 + "&code=" + code + "\n"
                 + "&code_verifier=" + codeVerifier;
@@ -184,7 +184,7 @@
 
             $("#tokenUrl").text(tokenEndpoint);
             $("#grantType").text("authorization_code");
-            $("#clientId").text(clientID);
+            $("#clientId").text(getClientId());
             $("#redirectUri").text(getRedirectUri());
             $("#code").text(code);
             $("#codeVerifier").text(codeVerifier);
@@ -199,7 +199,7 @@
 
             const bodyData = new URLSearchParams();
             bodyData.append('grant_type', 'authorization_code');
-            bodyData.append('client_id', clientID);
+            bodyData.append('client_id', getClientId());
             bodyData.append('redirect_uri', getRedirectUri());
             bodyData.append('code', code);
             bodyData.append('code_verifier', codeVerifier);
