@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OAuth 2.0 Playground - PKCE Flow (1/4)</title>
+    <title>OAuth 2.0 Playground - PKCE Flow</title>
+    <meta name="description" content="Proof Key for Code Exchange is a security protocol for the OAuth 2.0 authorization framework, designed to prevent
+                                    interception attacks in the authorization code flow. It's especially crucial for mobile or single-page applications
+                                    where storing a client secret securely is challenging. In PKCE, the client creates a dynamic 'code verifier' and its
+                                    transformed 'code challenge.' The server remembers this challenge, and when the authorization code is exchanged for an
+                                    access token, the client provides the original verifier. The server validates it against the stored challenge, ensuring
+                                    added security against malicious interceptions." />
     <link rel="icon" href="../favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link type="text/css" rel="stylesheet" href="../css/style.css" />
