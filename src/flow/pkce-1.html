@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OAuth 2.0 Playground - PKCE Flow (1/4)</title>
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link type="text/css" rel="stylesheet" href="../css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</head>
+<body>
+    <header id="page-header"></header>
+    <main>
+        <div class="container">
+            <div class="section">
+                <h3 class="header centered">PKCE Flow</h3>
+                <div class="circle-container circle-4">
+                    <div class="circle">
+                        1
+                    </div>
+                    <div class="line line-inactive"></div>
+                    <div class="circle circle-inactive">
+                        2
+                    </div>
+                    <div class="line line-inactive"></div>
+                    <div class="circle circle-inactive">
+                        3
+                    </div>
+                    <div class="line line-inactive"></div>
+                    <div class="circle circle-inactive">
+                        4
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s3 circle-text">
+                        Create a secret code verifier and code challenge
+                    </div>
+                    <div class="col s3 circle-text">
+                        Build the authorization URL and redirect the user to the authorization server
+                    </div>
+                    <div class="col s3 circle-text">
+                        After the user is redirected back to the client, verify the state
+                    </div>
+                    <div class="col s3 circle-text">
+                        Exchange the authorization code and code verifier for an access token
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="col s12 m7">
+                    <div class="card horizontal">
+                        <div class="card-stacked">
+                            <div class="card-content">
+                                <h6>1. Create a Code Verifier and Challenge</h6>
+                                <p>Before we can start the authorization process, we need to create a <b>code verifier</b> and a <b>code challenge</b>. The code verifier is a cryptographically random string that is used to verify the identity of the client. The code challenge is a hashed version of the code verifier, which is sent to the authorization server. The authorization server will then compare the code challenge with the code verifier to verify the identity of the client.</p>
+                                </p>
+                                <div class="row" style="margin-top: 20px;">
+                                    <div class="col s3">
+                                        <div class="waves-effect waves-light btn full-width" onclick="generateCodeVerifier()">Generate Code Verifier</div>
+                                    </div>
+                                    <div class="col s9">
+                                        <input id="codeVerifier" style="height: 30px;" type="text" disabled/>
+                                    </div>
+                                </div>
+                                
+                                <p>Now that we habe the code verified, we need to create the code challenge. We do so by hashing the code verifier using the SHA256 algorithm and then encoding it using the URL-safe Base64 encoding.</p>
+
+                                <div class="row" style="margin-top: 20px;">
+                                    <div class="col s3">
+                                        <div id="code-challenge-btn" class="waves-effect waves-light btn full-width disabled" onclick="generateCodeChallenge()">Generate Code Challenge</div>
+                                    </div>
+                                    <div class="col s9">
+                                        <input id="codeChallenge" style="height: 30px;" type="text" disabled />
+                                    </div>
+                                </div>
+                                
+                                <p>Now that we have the code verifier and code challenge, we can start the authorization process.</p>
+                                </p>
+                                <div class="row flow-submit-container">
+                                    <a id="continue-btn" class="waves-effect waves-light btn full-width disabled"
+                                        href="/flow/pkce-2">Continue</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section centered">
+                <a href="/">[ Take me home ]</a>
+            </div>
+        </div>
+    </main>
+    <footer class="page-footer"></footer>
+    <script src="../js/load-layout.js"></script>
+    <script src="../js/cookies.js"></script>
+    <script>
+        function generateCodeVerifier() {
+            var verifier = '';
+            var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            
+            for (var i = 0; i < 64; i++) {
+                verifier += possible.charAt(Math.floor(Math.random() * possible.length));
+            }
+
+            $('#codeVerifier').val(verifier);
+            $('#codeChallenge').val("");
+            $('#continue-btn').addClass('disabled');
+            $('#code-challenge-btn').removeClass('disabled');
+
+            setCookie("code_verifier", verifier, 30);
+        }
+
+        async function generateCodeChallenge() {
+            const verifier = $('#codeVerifier').val();
+            const encoder = new TextEncoder();
+            const data = encoder.encode(verifier);
+
+            const digest = await crypto.subtle.digest('SHA-256', data);
+
+            // Convert hash to Base64 URL encoded string
+            const base64UrlEncoded = btoa(String.fromCharCode(...new Uint8Array(digest)))
+                .replace('+', '-')
+                .replace('/', '_')
+                .replace(/=+$/, '');
+
+            $('#codeChallenge').val(base64UrlEncoded);
+            $('#continue-btn').removeClass('disabled');
+
+            setCookie("code_challenge", base64UrlEncoded, 30);
+        }
+    </script>
+</body>
+
+</html>

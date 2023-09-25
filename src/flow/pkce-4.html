@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OAuth 2.0 Playground - Authorization Code Flow (3/3)</title>
+    <title>OAuth 2.0 Playground - PKCE Flow (4/4)</title>
     <link rel="icon" href="../favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link type="text/css" rel="stylesheet" href="../css/style.css" />
@@ -20,8 +20,8 @@
     <main>
         <div class="container">
             <div class="section">
-                <h3 class="header centered">Authorization Code Flow</h3>
-                <div class="circle-container circle-3">
+                <h3 class="header centered">PKCE Flow</h3>
+                <div class="circle-container circle-4">
                     <div class="circle">
                         1
                     </div>
@@ -33,16 +33,23 @@
                     <div class="circle">
                         3
                     </div>
+                    <div class="line"></div>
+                    <div class="circle">
+                        4
+                    </div>
                 </div>
                 <div class="row">
-                    <div class="col s4 circle-text">
+                    <div class="col s3 circle-text">
+                        Create a secret code verifier and code challenge
+                    </div>
+                    <div class="col s3 circle-text">
                         Build the authorization URL and redirect the user to the authorization server
                     </div>
-                    <div class="col s4 circle-text">
-                        After the user is redirected back to the client, verify that the state matches
+                    <div class="col s3 circle-text">
+                        After the user is redirected back to the client, verify the state
                     </div>
-                    <div class="col s4 circle-text">
-                        Exchange the authorization code for an access token
+                    <div class="col s3 circle-text">
+                        Exchange the authorization code and code verifier for an access token
                     </div>
                 </div>
             </div>
@@ -51,7 +58,7 @@
                     <div class="card horizontal">
                         <div class="card-stacked">
                             <div class="card-content">
-                                <h6>3. Exchange the code for token</h6>
+                                <h6>4. Exchange the code and code verifier for token</h6>
                                 <p>Now that we have the authorization code, we can exchange it for an access token. This is done by sending a <b>POST</b> request to the token endpoint.</p>
                                 <pre class="code-block"><code id="requestUriExample"></code></pre>
                                 <p>With body data:</p>
@@ -79,7 +86,14 @@
                                     <li class="collection-item">
                                         <p><b><span class="emphasis">code</span>=<span id="code"></span></b></p>
                                         <p>This is the authorization code we got in the previous step and is used to obtain the
-                                            access token.</p>
+                                            access token.
+                                        </p>
+                                    </li>
+                                    <li class="collection-item">
+                                        <p><b><span class="emphasis">code_verifier</span>=<span id="codeVerifier"></span></b></p>
+                                        <p>This is the code verifier we generated in the first step. It is used to verify the
+                                            identity of the client.
+                                        </p>
                                     </li>
                                 </ul>
                                 <div class="row flow-submit-container">
@@ -147,7 +161,7 @@
                                         used in conjunction with refresh tokens).</p>
                                     </li>
                                 </ul>
-                                <p>And this concludes the Authorization Code Flow. Client application would now be able to request resources on users behalf without having to transfer his credentials with each request.</p>
+                                <p>And this concludes the Authorization Code Flow with PKCE. Client application would now be able to request resources on users behalf without having to transfer his credentials with each request.</p>
                                 <div class="row flow-submit-container">
                                     <a class="waves-effect waves-light btn full-width" href="/">Try different flow</a>
                                 </div>
@@ -160,17 +174,20 @@
     </main>
     <footer class="page-footer"></footer>
     <script src="../js/load-layout.js"></script>
+    <script src="../js/cookies.js"></script>
     <script>
         const tokenEndpoint = 'https://sso.rumbuddy.cz/realms/OAuthPlayground/protocol/openid-connect/token';
         const clientID = 'oauth-playground';
         const code = new URLSearchParams(window.location.search).get('code');
+        const codeVerifier = getCookie("code_verifier");
 
         function fillRequestExample() {
             const requestExample = 
                 "grant_type=authorization_code" + "\n"
                 + "&client_id=" + clientID + "\n"
                 + "&redirect_uri=" + getRedirectUri() + "\n"
-                + "&code=" + code;
+                + "&code=" + code + "\n"
+                + "&code_verifier=" + codeVerifier;
 
             $("#requestUriExample").text(tokenEndpoint);
             $("#requestBodyExample").text(requestExample);
@@ -180,10 +197,11 @@
             $("#clientId").text(clientID);
             $("#redirectUri").text(getRedirectUri());
             $("#code").text(code);
+            $("#codeVerifier").text(codeVerifier);
         }
 
         function getRedirectUri() {
-            return window.location.protocol + "//" + window.location.host + "/flow/code-2";
+            return window.location.protocol + "//" + window.location.host + "/flow/pkce-3";
         }
 
         function getToken() {
@@ -194,6 +212,7 @@
             bodyData.append('client_id', clientID);
             bodyData.append('redirect_uri', getRedirectUri());
             bodyData.append('code', code);
+            bodyData.append('code_verifier', codeVerifier);
 
             fetch(tokenEndpoint, {
                 method: 'POST',
