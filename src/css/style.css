@@ -203,3 +203,7 @@ pre {
     margin-top: 25px;
     padding: 0 10px;
 }
+
+.justified {
+    text-align: justify;
+}

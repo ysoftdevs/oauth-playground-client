@@ -48,7 +48,7 @@
                             <div class="card-stacked flow-card">
                                 <div class="card-content">
                                     <h5>Authorization Code Flow</h5>
-                                    <p>OAuth 2.0 protocol designed for web applications that can securely store client secrets.
+                                    <p class="justified">OAuth 2.0 protocol designed for web applications that can securely store client secrets.
                                     The application directs users to an authorization server to log in and grant permissions. Upon consent, the server
                                     issues an authorization code. The application then exchanges this code for an access token in a server-to-server
                                     request, using its client ID, client secret, and redirection URI. This flow ensures the access token is never directly
@@ -66,7 +66,7 @@
                             <div class="card-stacked flow-card">
                                 <div class="card-content">
                                     <h5>PKCE</h5>
-                                    <p>Proof Key for Code Exchange is a security protocol for the OAuth 2.0 authorization framework, designed to prevent
+                                    <p class="justified">Proof Key for Code Exchange is a security protocol for the OAuth 2.0 authorization framework, designed to prevent
                                     interception attacks in the authorization code flow. It's especially crucial for mobile or single-page applications
                                     where storing a client secret securely is challenging. In PKCE, the client creates a dynamic "code verifier" and its
                                     transformed "code challenge." The server remembers this challenge, and when the authorization code is exchanged for an
@@ -84,7 +84,7 @@
                             <div class="card-stacked flow-card">
                                 <div class="card-content">
                                     <h5>Device Authorization Grant</h5>
-                                    <p>OAuth 2.0 flow optimized for devices that either lack a browser or have limited input
+                                    <p class="justified">OAuth 2.0 flow optimized for devices that either lack a browser or have limited input
                                     capabilities, such as smart TVs, game consoles, and certain IoT devices. In this flow, the device makes a request to the
                                     authorization server and receives a unique user code and a verification URL. The user then accesses this URL on a
                                     separate device with a browser, like a smartphone or computer, and enters the user code. After successfully logging in
@@ -103,7 +103,7 @@
                             <div class="card-stacked flow-card">
                                 <div class="card-content">
                                     <h5>CIBA</h5>
-                                    <p>Client Initiated Backchannel Authentication is a protocol extension for OAuth 2.0, tailored for scenarios where
+                                    <p class="justified">Client Initiated Backchannel Authentication is a protocol extension for OAuth 2.0, tailored for scenarios where
                                     the client, such as a financial institution or IoT device, initiates the authentication process without direct user
                                     interaction on the client's platform. This is useful for "decoupled" authentication experiences, where, for instance, a
                                     user might authenticate on their smartphone when prompted by a smart TV app. In CIBA, once the client requests
@@ -123,7 +123,7 @@
                             <div class="card-stacked flow-card">
                                 <div class="card-content">
                                     <h5>WebAuthN</h5>
-                                    <p>This protocol leverages public key cryptography and allows users to authenticate using biometrics, mobile devices, or
+                                    <p class="justified">This protocol leverages public key cryptography and allows users to authenticate using biometrics, mobile devices, or
                                     FIDO security keys, instead of traditional passwords. When a user registers with a website, a unique key pair is
                                     generated: the private key stays securely on the user's device, and the public key is registered with the website. For
                                     subsequent logins, the website challenges the user to prove ownership of the private key, typically by prompting for a
