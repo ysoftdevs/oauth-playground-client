@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OAuth 2.0 Playground</title>
+    <title>OAuth 2.0 Playground - Authorization Code Flow (1/3)</title>
     <link rel="icon" href="../favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link type="text/css" rel="stylesheet" href="../css/style.css" />
@@ -55,23 +55,24 @@
                         <div class="card-stacked">
                             <div class="card-content">
                                 <h6>1. Build the Authorization URL</h6>
+                                <p>
+                                    In order to initiate the <b>Authorization Code Flow</b>, we need to build the authorization URL
+                                    and redirect the user to the authorization server. The URL is constructed as follows:                                 
+                                </p>
                                 <pre class="code-block"><code id="requestUriExample"></code></pre>
-                                <h6>Let's break it down...</h6>
+                                <p>Let's break it down...</p>
                                 <ul class="collection">
                                     <li class="collection-item">
                                         <p><b><span id="baseUrl"></span></b>
                                         </p>
                                         <p>URL of the authorization endpoint on the server. How is this path constructed will
-                                            differ between OAuth providers (such as Keycloak or Okta). to
-                                            find out the proper URL, there always exists
-                                            <b>/.well-known/openid-configuration</b> endpoint that contains all the necessary
-                                            information.
+                                            differ between OAuth providers (such as Keycloak, Okta, etc.).
                                         </p>
                                     </li>
                                     <li class="collection-item">
                                         <p><b><span class="emphasis">response_type</span>=<span id="responseType"></span></b></p>
                                         <p>OAuth 2.0 response type. In this case, we are using the Authorization Code flow, so
-                                            we are requesting the authorization code.</p>
+                                            we are requesting the authorization <b>code</b>.</p>
                                     </li>
                                     <li class="collection-item">
                                         <p><b><span class="emphasis">client_id</span>=<span id="clientId"></span></b></p>
@@ -89,20 +90,23 @@
                                     <li class="collection-item">
                                         <p><b><span class="emphasis">scope</span>=<span id="scope"></span></b></p>
                                         <p>Scopes requested by the client. Scopes are used to limit the access of the access
-                                            token. In this case, we are requesting the offline_access scope,
+                                            token. In this case, we are requesting the <b>offline_access</b> scope,
                                             which allows the client to obtain a refresh token.</p>
                                     </li>
                                     <li class="collection-item">
                                         <p><b><span class="emphasis">state</span>=<span id="state"></span></b></p>
-                                        <p>State parameter. This is an optional parameter that the client can use to maintain
+                                        <p>State parameter. This is an <b>optional parameter</b> that the client can use to maintain
                                             state between the request and callback. The authorization
                                             server includes this parameter when redirecting the user back to the client,
                                             allowing the client to verify that the response is coming from the
-                                            server and not a malicious third party.</p>
+                                            server and not a malicious third party (<a href="https://owasp.org/www-community/attacks/csrf" target="_blank">CSRF attack</a>).</p>
                                     </li>
                                 </ul>
-                                <div class="row" style="text-align: center; margin-top: 25px;">
-                                    <a id="sendRequestBtn" style="width: 20%" class="waves-effect waves-light btn"
+                                <p>All that we now need to do is click the button below and login with our credentials. 
+                                    For the purposes of this
+                                    playground we already took the liberty to create <b>user</b> with password <b>user</b> for you. After your credentials are successfully verified, you will be redirected back to this playground, to the URL we have specified in the <b>redirect_uri</b> query parameter of the request.</p>
+                                <div class="row flow-submit-container">
+                                    <a id="sendRequestBtn" class="waves-effect waves-light btn full-width"
                                         href="#">Authenticate</a>
                                 </div>
                             </div>

@@ -194,3 +194,12 @@ pre {
     text-align: center;
     width: 100%;
 }
+
+.full-width {
+    width: 100%;
+}
+
+.flow-submit-container {
+    margin-top: 25px;
+    padding: 0 10px;
+}
