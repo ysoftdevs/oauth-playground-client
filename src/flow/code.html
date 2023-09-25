@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OAuth 2.0 Playground - PKCE Flow (2/4)</title>
+    <title>OAuth 2.0 Playground - Authorization Code Flow (1/3)</title>
     <link rel="icon" href="../favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link type="text/css" rel="stylesheet" href="../css/style.css" />
@@ -20,36 +20,29 @@
     <main>
         <div class="container">
             <div class="section">
-                <h3 class="header centered">PKCE Flow</h3>
-                <div class="circle-container circle-4">
+                <h3 class="header centered">Authorization Code Flow</h3>
+                <div class="circle-container circle-3">
                     <div class="circle">
                         1
                     </div>
-                    <div class="line"></div>
-                    <div class="circle">
+                    <div class="line line-inactive"></div>
+                    <div class="circle circle-inactive">
                         2
                     </div>
                     <div class="line line-inactive"></div>
                     <div class="circle circle-inactive">
                         3
                     </div>
-                    <div class="line line-inactive"></div>
-                    <div class="circle circle-inactive">
-                        4
-                    </div>
                 </div>
                 <div class="row">
-                    <div class="col s3 circle-text">
-                        Create a secret code verifier and code challenge
-                    </div>
-                    <div class="col s3 circle-text">
+                    <div class="col s4 circle-text">
                         Build the authorization URL and redirect the user to the authorization server
                     </div>
-                    <div class="col s3 circle-text">
-                        After the user is redirected back to the client, verify the state
+                    <div class="col s4 circle-text">
+                        After the user is redirected back to the client, verify that the state matches
                     </div>
-                    <div class="col s3 circle-text">
-                        Exchange the authorization code and code verifier for an access token
+                    <div class="col s4 circle-text">
+                        Exchange the authorization code for an access token
                     </div>
                 </div>
             </div>
@@ -58,9 +51,10 @@
                     <div class="card horizontal">
                         <div class="card-stacked">
                             <div class="card-content">
-                                <h6>2. Build the Authorization URL</h6>
+                                <h6>1. Build the Authorization URL</h6>
                                 <p>
-                                    First we need to build the authorization URL and redirect the user to the authorization server. The URL is constructed as follows:                                 
+                                    In order to initiate the <b>Authorization Code Flow</b>, we need to build the authorization URL
+                                    and redirect the user to the authorization server. The URL is constructed as follows:                                 
                                 </p>
                                 <pre class="code-block"><code id="requestUriExample"></code></pre>
                                 <p>Let's break it down...</p>
@@ -104,15 +98,6 @@
                                             allowing the client to verify that the response is coming from the
                                             server and not a malicious third party (<a href="https://owasp.org/www-community/attacks/csrf" target="_blank">CSRF attack</a>).</p>
                                     </li>
-                                    <li class="collection-item">
-                                        <p><b><span class="emphasis">code_challenge</span>=<span id="codeChallenge"></span></b></p>
-                                        <p>This is the code challenge we have created in the previous step. This ensures that even if an attacker intercepts the authorization code, they can't exchange it for an access token without the original code verifier.</p>
-                                    </li>
-                                    <li class="collection-item">
-                                        <p><b><span class="emphasis">code_challenge_method</span>=<span id="codeChallengeMethod"></span></b></p>
-                                        <p>Code Challenge method tells the identity provider how the <b>code_challenge</b> was generated from the original code verifier. <b>S256</b> means that
-                                        the challenge is a base64url encoding of the SHA-256 hash of the verifier. This is the recommended method for PKCE.</p>
-                                    </li>
                                 </ul>
                                 <p>All that we now need to do is click the button below and login with our credentials. 
                                     For the purposes of this
@@ -133,7 +118,6 @@
     </main>
     <footer class="page-footer"></footer>
     <script src="../js/load-layout.js"></script>
-    <script src="../js/cookies.js"></script>
     <script>
         function generateSessionState () {
             return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
@@ -145,9 +129,7 @@
                 + "&" + "client_id=" + clientId 
                 + "&" + "redirect_uri=" + redirectUri 
                 + "&" + "scope=" + scope 
-                + "&" + "state=" + state
-                + "&" + "code_challenge=" + codeChallenge
-                + "&" + "code_challenge_method=S256";
+                + "&" + "state=" + state;
         }
 
         function fillExample() {
@@ -156,9 +138,7 @@
                 + "    &client_id=" + clientId + "\n"
                 + "    &redirect_uri=" + redirectUri + "\n"
                 + "    &scope=" + scope + "\n"
-                + "    &state=" + state + "\n"
-                + "    &code_challenge=" + codeChallenge + "\n"
-                + "    &code_challenge_method=S256";
+                + "    &state=" + state;
             
             $("#requestUriExample").text(requestExample);
             $("#baseUrl").text(baseUrl);
@@ -167,12 +147,10 @@
             $("#redirectUri").text(redirectUri);
             $("#scope").text(scope);
             $("#state").text(state);
-            $("#codeChallenge").text(codeChallenge);
-            $("#codeChallengeMethod").text("S256");
         }
 
         function getRedirectUri() {
-            return window.location.protocol + "//" + window.location.host + "/flow/pkce-3";
+            return window.location.protocol + "//" + window.location.host + "/flow/code-2";
         }
 
         const baseUrl = "https://www.sso.oauth-playground.online/auth";
@@ -181,7 +159,6 @@
         const redirectUri = getRedirectUri();
         const scope = "offline_access";
         const state = generateSessionState();
-        const codeChallenge = getCookie("code_challenge");
 
         fillExample();
         $("#sendRequestBtn").attr("href", constructRequestUrl());

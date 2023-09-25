@@ -63,13 +63,6 @@
                                     </p>
                                     </li>
                                     <li class="collection-item">
-                                        <p><b><span class="emphasis">session_state</span>=<span id="sessionState"></span></b></p>
-                                        <p>The session state parameter is not a core part of the OAuth 2.0 specification, but it is used in OpenID Connect (OIDC)
-                                        to represent the state of the end user's session at the Authorization Server.
-                                        The client can use this value to help manage user sessions or to detect when the user's session at the Authorization
-                                        Server changes (for example, if the user logs out).</p>
-                                    </li>
-                                    <li class="collection-item">
                                         <p><b><span class="emphasis">code</span>=<span id="code"></span></b></p>
                                         <p>The code parameter contains the actual authorization code. This is a temporary code that the client can exchange for an
                                         access token (and optionally, a refresh token) by making a back-channel request to the Authorization Server.
@@ -100,10 +93,8 @@
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get('code');
         const state = urlParams.get('state');
-        const sessionState = urlParams.get('session_state');
 
         $("#state").text(state);
-        $("#sessionState").text(sessionState);
         $("#code").text(code);
 
         function proceedToNextStep() {

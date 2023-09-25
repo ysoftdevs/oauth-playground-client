@@ -41,7 +41,6 @@
             <div class="section">
                 <h3 class="header section-header">Flows</h3>
                 <div class="divider" style="margin-bottom: 10px;"></div>
-                
                 <div class="row">
                     <div class="col s4">
                         <div class="card horizontal">
@@ -56,7 +55,7 @@
                                     protect the client secret.</p>
                                 </div>
                                 <div class="card-action">
-                                    <a href="/flow/code-1">Try it</a>
+                                    <a href="/flow/code">Try it</a>
                                 </div>
                             </div>
                         </div>
@@ -74,7 +73,7 @@
                                     added security against malicious interceptions.</p>
                                 </div>
                                 <div class="card-action">
-                                    <a href="/flow/pkce-1">Try it</a>
+                                    <a href="/flow/pkce">Try it</a>
                                 </div>
                             </div>
                         </div>
@@ -102,15 +101,18 @@
                         <div class="card horizontal">
                             <div class="card-stacked flow-card">
                                 <div class="card-content">
-                                    <h5>CIBA</h5>
-                                    <p class="justified">Client Initiated Backchannel Authentication is a protocol extension for OAuth 2.0, tailored for scenarios where
-                                    the client, such as a financial institution or IoT device, initiates the authentication process without direct user
-                                    interaction on the client's platform. This is useful for "decoupled" authentication experiences, where, for instance, a
-                                    user might authenticate on their smartphone when prompted by a smart TV app. In CIBA, once the client requests
-                                    authentication, the authorization server prompts the user on a previously registered device, such as their mobile phone.
-                                    Upon successful authentication, the authorization server sends a token back to the client. This flow provides a seamless
-                                    and secure user experience, especially in contexts where traditional OAuth 2.0 interactions might be cumbersome or
-                                    impractical.</p>
+                                    <h5>WebAuthN</h5>
+                                    <p class="justified">This protocol leverages public key cryptography and allows users to authenticate
+                                        using biometrics, mobile devices, or
+                                        FIDO security keys, instead of traditional passwords. When a user registers with a website, a unique
+                                        key pair is
+                                        generated: the private key stays securely on the user's device, and the public key is registered
+                                        with the website. For
+                                        subsequent logins, the website challenges the user to prove ownership of the private key, typically
+                                        by prompting for a
+                                        biometric or a physical action on a security key. WebAuthn enhances user security by reducing
+                                        reliance on easily
+                                        compromised passwords and defending against phishing attacks.</p>
                                 </div>
                                 <div class="card-action underConstruction">
                                     <i class="tiny material-icons">build</i> Under construction
@@ -122,13 +124,39 @@
                         <div class="card horizontal">
                             <div class="card-stacked flow-card">
                                 <div class="card-content">
-                                    <h5>WebAuthN</h5>
-                                    <p class="justified">This protocol leverages public key cryptography and allows users to authenticate using biometrics, mobile devices, or
-                                    FIDO security keys, instead of traditional passwords. When a user registers with a website, a unique key pair is
-                                    generated: the private key stays securely on the user's device, and the public key is registered with the website. For
-                                    subsequent logins, the website challenges the user to prove ownership of the private key, typically by prompting for a
-                                    biometric or a physical action on a security key. WebAuthn enhances user security by reducing reliance on easily
-                                    compromised passwords and defending against phishing attacks.</p>
+                                    <h5>CIBA</h5>
+                                    <p class="justified">Client Initiated Backchannel Authentication is a protocol extension for OAuth 2.0,
+                                        tailored for scenarios where
+                                        the client, such as a financial institution or IoT device, initiates the authentication process
+                                        without direct user
+                                        interaction on the client's platform. This is useful for "decoupled" authentication experiences,
+                                        where, for instance, a
+                                        user might authenticate on their smartphone when prompted by a smart TV app. In CIBA, once the
+                                        client requests
+                                        authentication, the authorization server prompts the user on a previously registered device, such as
+                                        their mobile phone.
+                                        Upon successful authentication, the authorization server sends a token back to the client. This flow
+                                        provides a seamless
+                                        and secure user experience, especially in contexts where traditional OAuth 2.0 interactions might be
+                                        cumbersome or
+                                        impractical.</p>
+                                </div>
+                                <div class="card-action underConstruction">
+                                    <i class="tiny material-icons">build</i> Under construction
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s4">
+                        <div class="card horizontal">
+                            <div class="card-stacked flow-card">
+                                <div class="card-content">
+                                    <h5>Implicit Flow</h5>
+                                    <p class="justified">OAuth 2.0 Implicit Flow was designed for browser-based applications where the client cannot maintain the confidentiality
+                                    of a secret. In this flow, after user authorization, the authorization server directly redirects the browser to the
+                                    client application with an access token in the URL fragment. However, this can expose tokens in browser history or logs,
+                                    making it less secure. Consequently, the use of Implicit Flow is being discouraged in favor of the more secure
+                                    Authorization Code Flow with PKCE in recent OAuth specifications.</p>
                                 </div>
                                 <div class="card-action underConstruction">
                                     <i class="tiny material-icons">build</i> Under construction
