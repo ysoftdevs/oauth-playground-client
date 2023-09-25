@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,13 +15,12 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
-
 <body>
     <header id="page-header"></header>
     <main>
         <div class="container">
             <div class="section">
-                <h3 class="header" style="text-align: center;">Authorization Code Flow</h3>
+                <h3 class="header centered">Authorization Code Flow</h3>
                 <div class="circle-container">
                     <div class="circle">
                         1
@@ -36,13 +34,12 @@
                         3
                     </div>
                 </div>
-        
                 <div class="row">
                     <div class="col s4 circle-text">
                         Build the authorization URL and redirect the user to the authorization server
                     </div>
                     <div class="col s4 circle-text">
-                        After the user is redirected back to the client, verify the state matches
+                        After the user is redirected back to the client, verify that the state matches
                     </div>
                     <div class="col s4 circle-text">
                         Exchange the authorization code for an access token

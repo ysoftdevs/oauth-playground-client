@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OAuth 2.0 Playground</title>
+    <title>OAuth 2.0 Playground - Authorization Code Flow (2/3)</title>
     <link rel="icon" href="../favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link type="text/css" rel="stylesheet" href="../css/style.css" />
@@ -16,13 +15,12 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
-
 <body>
     <header id="page-header"></header>
     <main>
         <div class="container">
             <div class="section">
-                <h3 class="header" style="text-align: center;">Authorization Code Flow</h3>
+                <h3 class="header centered">Authorization Code Flow</h3>
                 <div class="circle-container">
                     <div class="circle">
                         1
@@ -36,13 +34,12 @@
                         3
                     </div>
                 </div>
-        
                 <div class="row">
                     <div class="col s4 circle-text">
                         Build the authorization URL and redirect the user to the authorization server
                     </div>
                     <div class="col s4 circle-text">
-                        After the user is redirected back to the client, verify the state matches
+                        After the user is redirected back to the client, verify that the state matches
                     </div>
                     <div class="col s4 circle-text">
                         Exchange the authorization code for an access token
@@ -55,29 +52,34 @@
                         <div class="card-stacked">
                             <div class="card-content">
                                 <h6>2. Verify the state parameter</h6>
-        
                                 <p>You have now been redirected back to the application, to the page that was specified in the <b>redirect-url</b> parameter. In the URL you can notice, that there are addtional query parameters:</p>
                                 <pre class="code-block"><code id="queryParams"></code></pre>
-                                <h6>Let's break it down...</h6>
+                                <p>Let's break it down...</p>
                                 <ul class="collection">
                                     <li class="collection-item">
                                         <p><b><span class="emphasis">state</span>=<span id="state"></span></b></p>
-                                        <p>This is the state parameter that was sent in the initial request. It is used to prevent CSRF attacks.</p>
+                                        <p>The state parameter is an opaque value used by the client to maintain state between the request and the callback.
+                                        Essentially, it is used to prevent Cross-Site Request Forgery (<a href="https://owasp.org/www-community/attacks/csrf" target="_blank">CSRF</a>) attacks and to ensure the response belongs to the request made by the client.
+                                    </p>
                                     </li>
                                     <li class="collection-item">
                                         <p><b><span class="emphasis">session_state</span>=<span id="sessionState"></span></b></p>
-                                        <p>Session state is a parameter that is used to maintain state between the request and callback. It is used to prevent CSRF attacks.</p>
+                                        <p>The session state parameter is not a core part of the OAuth 2.0 specification, but it is used in OpenID Connect (OIDC)
+                                        to represent the state of the end user's session at the Authorization Server.
+                                        The client can use this value to help manage user sessions or to detect when the user's session at the Authorization
+                                        Server changes (for example, if the user logs out).</p>
                                     </li>
                                     <li class="collection-item">
                                         <p><b><span class="emphasis">code</span>=<span id="code"></span></b></p>
-                                        <p>This is the authorization code that will be exchanged for an access token.</p>
+                                        <p>The code parameter contains the actual authorization code. This is a temporary code that the client can exchange for an
+                                        access token (and optionally, a refresh token) by making a back-channel request to the Authorization Server.
+                                        The format and structure of the code is determined by the Authorization Server. It can be just a random string, or a more complex construction. The exact significance of this structure is specific to the Authorization Server implementation and might include different identifiers or information encoded in
+                                        the structure.</p>
                                     </li>
                                 </ul>
-
                                 <p>Now we have everything necessary to obtain token for the user. But is the state we have sent equivalent to the one we received back?</p>
-
-                                <div class="row" style="text-align: center; margin-top: 25px;">
-                                    <a style="width: 20%" class="waves-effect waves-light btn"
+                                <div class="row flow-submit-container">
+                                    <a class="waves-effect waves-light btn full-width"
                                         onclick="proceedToNextStep()">States are matching</a>
                                 </div>
                             </div>
