@@ -214,3 +214,19 @@ pre {
 .justified {
     text-align: justify;
 }
+
+.determinate {
+    background-color: #FF6600 !important;
+}
+
+.progress {
+    background-color: #9F9F9F !important;
+}
+
+.no-margin {
+    margin: 0;
+}
+
+.qr-container {
+    margin: 15px 0;
+}

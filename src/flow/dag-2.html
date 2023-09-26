@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OAuth 2.0 Playground - Device Authorization Grant (2/3)</title>
+    <meta name="description"
+        content="Discover the Device Authorization Grant in action. Delve into its unique OAuth process tailored for limited-input devices, ensuring secure user authentication. A must-visit for developers optimizing for diverse device integrations." />
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link type="text/css" rel="stylesheet" href="../css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CVH4GP5T69"></script>
+    <script src="../js/analytics.js"></script>
+</head>
+<body>
+    <header id="page-header"></header>
+    <main>
+        <div class="container">
+            <div class="section">
+                <h3 class="header centered">Device Authorization Grant</h3>
+                <div class="circle-container circle-3">
+                    <div class="circle">
+                        1
+                    </div>
+                    <div class="line"></div>
+                    <div class="circle">
+                        2
+                    </div>
+                    <div id="line-2" class="line line-inactive"></div>
+                    <div id="circle-3" class="circle circle-inactive">
+                        3
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s4 circle-text">
+                        Request a device code from the authorization server
+                    </div>
+                    <div class="col s4 circle-text">
+                        Start polling authorization server periodically until the code has been successfully entered
+                    </div>
+                    <div class="col s4 circle-text">
+                        Instruct the user where to enter the code
+                    </div>
+                </div>
+            </div>
+            <div class="row section">
+                <div class="col s6">
+                    <div class="card horizontal">
+                        <div class="card-stacked">
+                            <div class="card-content">
+                                <h6>2. Wait for user to enter the user code</h6>
+                                <p>We do so by periodically polling authorization server at:</p>
+                                <pre class="code-block"><code id="requestUriExample"></code></pre>
+                                <p>With body data:</p>
+                                <pre class="code-block"><code id="requestBodyExample"></code></pre>
+                                <p>Let's break it down...</p>
+                                <ul class="collection">
+                                    <li class="collection-item">
+                                        <p><b><span class="emphasis">grant_type</span>=<span id="grant-type">urn:ietf:params:oauth:grant-type:device_code</span></b></p>
+                                        <p>
+                                            This is a mandatory parameter that indicates the type of grant being used. In this case we are using the <b>device code</b>.
+                                        </p>
+                                    </li>
+                                    <li class="collection-item">
+                                        <p><b><span class="emphasis">client_id</span>=<span id="client-id"></span></b></p>
+                                        <p>
+                                            Client ID of the application. This is a public identifier for the client, and it is
+                                            used by the authorization server to identify the application
+                                            when redirecting the user back to the client.
+                                        </p>
+                                    </li>
+                                    <li class="collection-item">
+                                        <p><b><span class="emphasis">device_code</span>=<span id="device-code"></span></b></p>
+                                        <p>
+                                            Device code we have obtained in the previous step.
+                                        </p>
+                                    </li>
+                                </ul>
+                                
+                                <div class="row flow-submit-container">
+                                    <a id="start-polling-btn" class="waves-effect waves-light btn full-width"
+                                        onclick="startPolling()">Start polling</a>
+                                    <div class="progress no-margin">
+                                        <div id="polling-bar" class="determinate" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                                <pre class="code-block"><code id="token-response"></code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="user-panel" class="col s6" style="display: none;">
+                    <div class="card horizontal">
+                        <div class="card-stacked">
+                            <div class="card-content">
+                                <h6>3. Instruct the user where to enter the code</h6>
+                                <p>Device would typically show the user code on it's display (or in console output when connection to display-less device via SSH for example) and where possible, also the URL that the user should visit. Based on the capabilities the URL could be shown as a simple text, or QR code, or if the device didn't have display capable enough, than the URL could be written in a manual distributed with the device.</p>
+                                
+                                <div class="row col s12" style="margin-top: 15px;">
+                                    <div class="col s2"></div>
+                                    <div class="col s3" style="padding-top: 5px;">
+                                        <h6>User code:</h6>
+                                    </div>
+                                    <div class="col s3">
+                                        <input id="user-code" type="text" disabled>
+                                    </div>
+                                    <div class="col s2" style="padding-top: 5px;">
+                                        <button title="Copy to clipboard" class="btn-floating waves-effect waves-light" style="background-color: #000000;" onclick="copyUserCodeToClipboard()"><i
+                                                class="material-icons" style="font-size:18px;">content_copy</i></button>
+                                    </div>
+                                    <div class="col s2"></div>
+                                </div>
+                                
+                                <p>Now that we have the user code, we can for example scan a QR code and finalize this flow on our mobile device:</p>
+                                <div class="row qr-container">
+                                    <div id="qrcode" style="margin: 0 auto;"></div>
+                                </div>
+                                <p>
+                                    Or for the purposes of this demo, you can click on the button below to open a new window, and finalize this flow there (<i>If no windows pops up, make sure that the pop-up window is not blocked</i>);
+                                </p>
+                                <div class="row flow-submit-container">
+                                    <a class="waves-effect waves-light btn full-width" onclick="initiateAuthentication()">Authenticate</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="result-panel" class="col s12" style="display: none;">
+                    <div class="card horizontal">
+                        <div class="card-stacked">
+                            <div class="card-content">
+                                <h6>Congratulations, you have just obtained an <b>access token</b></h6>
+                                <pre class="code-block"><code id="token"></code></pre>
+                                <h6>Let's break down what we have received...</h6>
+                                <ul class="collection">
+                                    <li class="collection-item">
+                                        <p><b>token_type</b></p>
+                                        <p>Indicates the type of token issued. In OAuth 2.0, the common type is "Bearer", which means that whoever
+                                            bears
+                                            the token
+                                            can access the resources.</p>
+                                    </li>
+                                    <li class="collection-item">
+                                        <p><b>expires_in</b></p>
+                                        <p>Indicates the number of seconds for which the <b>access_token</b> is valid. After this time, the
+                                            access_token
+                                            will expire and a
+                                            new one must be obtained.</p>
+                                    </li>
+                                    <li class="collection-item">
+                                        <p><b>access_token</b></p>
+                                        <p>This is the actual access token, which allows the client application to access the user's protected
+                                            resources
+                                            on the
+                                            resource server (e.g., user profile, photos, etc.).
+                                        </p>
+                                    </li>
+                                    <li class="collection-item">
+                                        <p><b>refresh_token</b></p>
+                                        <p>Used to obtain a new <b>access_token</b> when the current one expires. This allows the client to get a
+                                            new
+                                            <b>access_token</b> without
+                                            requiring the user to log in again.
+                                        </p>
+                                    </li>
+                                    <li class="collection-item">
+                                        <p><b>scope</b></p>
+                                        <p>Specifies the scopes granted by the user to the client application. Scopes determine the permissions
+                                            associated with the
+                                            <b>access_token</b>. Here, the granted scopes are email, offline_access, and profile. This means that
+                                            with
+                                            the provided access_token, the
+                                            client application can access the user's email and profile information and is also granted offline
+                                            access
+                                            (typically
+                                            used in conjunction with refresh tokens).
+                                        </p>
+                                    </li>
+                                </ul>
+                                <p>And this concludes the Device Authorization Grant flow. Client application would now be able to request resources on
+                                    users behalf without having to transfer his credentials with each request.</p>
+                                <div class="row flow-submit-container">
+                                    <a class="waves-effect waves-light btn full-width" href="/">Try different flow</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section centered">
+                <a href="/">[ Take me home ]</a>
+            </div>
+        </div>
+    </main>
+    <footer class="page-footer"></footer>
+    <script src="../js/load-layout.js"></script>
+    <script src="../js/cookies.js"></script>
+    <script src="../js/env-config.js"></script>
+    <script>
+        const tokenUrl = baseUrl + "/token"
+        const dagResponse = JSON.parse(getCookie("dag_response"));
+        var pollingInterval = null;
+        var pollingAnimationInterval = null;
+
+        console.debug(dagResponse);
+
+        function showUserPanel() {
+            $("#line-2").removeClass("line-inactive");
+            $("#circle-3").removeClass("circle-inactive");
+            $("#user-panel").show();
+            $("#user-code").val(dagResponse.user_code.toUpperCase());
+        }
+
+        function fetchToken() {
+            const bodyData = new URLSearchParams();
+            bodyData.append('grant_type', 'urn:ietf:params:oauth:grant-type:device_code');
+            bodyData.append('client_id', getClientId());
+            bodyData.append('device_code', dagResponse.device_code);
+
+            fetch(tokenUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                },
+                body: bodyData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    $("#token-response").text(JSON.stringify(data, null, 2));
+                    
+                    if (data.access_token) {
+                        clearInterval(pollingInterval);
+                        processCodeFlowResult(data);
+                    } else {
+                        animatePreloader("#polling-bar", dagResponse.interval * 1000);
+                    }
+                });
+        }
+
+        function startPolling() {
+            $("#start-polling-btn").addClass("disabled");
+            $("#start-polling-btn").text("Polling...");
+            fetchToken();
+            showUserPanel();
+            pollingInterval = setInterval(fetchToken, dagResponse.interval * 1000);
+        }
+
+        function fillExample() {
+            const requestExample = "grant_type=urn:ietf:params:oauth:grant-type:device_code" + "\n"
+                + "&client_id=" + getClientId() + "\n"
+                + "&device_code=" + dagResponse.device_code;
+
+            $("#requestUriExample").text(tokenUrl);
+            $("#requestBodyExample").text(requestExample);
+            $("#client-id").text(getClientId());
+            $("#device-code").text(dagResponse.device_code);
+            generateQR();
+        }
+
+        function initiateAuthentication() {
+            window.open(dagResponse.verification_uri, '_blank', 'width=800,height=600');
+        }
+
+        function processCodeFlowResult(data) {
+            $("#start-polling-btn").text("Token obtained");
+            $("#result-panel").show();
+            $("#token").text(JSON.stringify(data, null, 2));
+            $([document.documentElement, document.body]).animate({
+                scrollTop: $("#result-panel").offset().top
+            }, 1000);
+        }
+
+        function animatePreloader(identifier, duration) {
+            var element = $(identifier);
+            
+            if (pollingAnimationInterval) {
+                clearInterval(pollingAnimationInterval);
+                element.css('width', '0%');
+            }
+            
+            var startTime = Date.now();
+            var interval = 100;
+            
+            var updateWidth = function () {
+                var elapsed = Date.now() - startTime;
+                var percentage = (elapsed / duration) * 100;
+
+                if (percentage >= 100) {
+                    element.css('width', '100%');
+                    clearInterval(pollingAnimationInterval);
+                } else {
+                    element.css('width', percentage + '%');
+                }
+            };
+
+            pollingAnimationInterval = setInterval(updateWidth, interval);
+        }
+
+        function generateQR() {
+            document.getElementById("qrcode").innerHTML = "";
+            const qrcode = new QRCode(document.getElementById("qrcode"), {
+                text: dagResponse.verification_uri,
+                width: 156,
+                height: 156
+            });
+
+            $("#qrcode").children().css("margin", "0 auto");
+        }
+
+        function copyUserCodeToClipboard() {
+            navigator.clipboard.writeText(dagResponse.user_code);
+            M.toast({ html: 'Copied to clipboard!' });
+        }
+
+        fillExample();
+    </script>
+</body>
+</html>

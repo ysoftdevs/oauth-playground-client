@@ -43,10 +43,10 @@
                         Request a device code from the authorization server
                     </div>
                     <div class="col s4 circle-text">
-                        Instruct the user where to enter the code
+                        Start polling authorization server periodically until the code has been successfully entered
                     </div>
                     <div class="col s4 circle-text">
-                        Poll the authorization server periodically until the code has been successfully entered
+                        Instruct the user where to enter the code
                     </div>
                 </div>
             </div>
@@ -62,54 +62,69 @@
                                 <pre class="code-block"><code id="requestUriExample"></code></pre>
                                 <p>With body data:</p>
                                 <pre class="code-block"><code id="requestBodyExample"></code></pre>
-                                <p>Let's break it down...</p>
+                                
+                                <div class="row flow-submit-container">
+                                    <a id="get-code-btn" class="waves-effect waves-light btn full-width"
+                                        onclick="getDeviceCode()">Get Device Code</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="code-result" style="display: none;" class="section">
+                <div class="col s12 m7">
+                    <div class="card horizontal">
+                        <div class="card-stacked">
+                            <div class="card-content">
+                                <h6>We have obtained a device code</h6>
+                                <pre class="code-block"><code id="response"></code></pre>
+                                <h6>Let's break down what we have received...</h6>
                                 <ul class="collection">
                                     <li class="collection-item">
-                                        <p><b><span id="baseUrl"></span></b>
+                                        <p><b>device_code</b></p>
+                                        <p>
+                                            This is a long-lived code that the client (your device or app) will use to poll the authorization server to find out if
+                                            the user completed the authorization step. This code is typically longer and not user-friendly, as it's not meant to be entered by a human but used
+                                            programmatically.
                                         </p>
-                                        <p>URL of the authorization endpoint on the server. How is this path constructed will
-                                            differ between OAuth providers (such as Keycloak, Okta, etc.).
+                                    </li>
+                                    <li class="collection-item">
+                                        <p><b>user_code</b></p>
+                                        <p>
+                                            This is a short-lived, user-friendly code that the end-user will enter on another device or computer with better input
+                                            capabilities to authorize the device. The life of this code is typically shorter than the <b>device_code</b> because it's expected that users will enter it
+                                            relatively quickly after it's generated.
                                         </p>
                                     </li>
                                     <li class="collection-item">
-                                        <p><b><span class="emphasis">response_type</span>=<span id="responseType"></span></b></p>
-                                        <p>OAuth 2.0 response type. In this case, we are using the Authorization Code flow, so
-                                            we are requesting the authorization <b>code</b>.</p>
+                                        <p><b>verification_uri</b></p>
+                                        <p>
+                                            This is the URL where the user should go (on a browser on another device or computer) to enter the <b>user_code</b> and approve
+                                            or deny the authorization request. After navigating to this URL, the user will typically be asked to login (if not already) and then prompted to enter the
+                                            <b>user_code</b>.
+                                        </p>
                                     </li>
                                     <li class="collection-item">
-                                        <p><b><span class="emphasis">client_id</span>=<span id="clientId"></span></b></p>
-                                        <p>Client ID of the application. This is a public identifier for the client, and it is
-                                            used by the authorization server to identify the application
-                                            when redirecting the user back to the client.</p>
+                                        <p><b>interval</b></p>
+                                        <p>
+                                            This is the recommended interval (in seconds) at which the client should poll the authorization server to check if the
+                                            user has completed the authorization step. For example, with an interval of 10, the client should wait for 10 seconds between each poll to the server. This helps in preventing too frequent requests which could overload the server.
+                                        </p>
                                     </li>
                                     <li class="collection-item">
-                                        <p><b><span class="emphasis">redirect_uri</span>=<span id="redirectUri"></span></b></p>
-                                        <p>Redirect URI of the client. This is the URL that the authorization server will
-                                            redirect the user back to after the user has logged in and
-                                            granted permissions. The redirect URI must match one of the URIs registered for the
-                                            client ID.</p>
-                                    </li>
-                                    <li class="collection-item">
-                                        <p><b><span class="emphasis">scope</span>=<span id="scope"></span></b></p>
-                                        <p>Scopes requested by the client. Scopes are used to limit the access of the access
-                                            token. In this case, we are requesting the <b>offline_access</b> scope,
-                                            which allows the client to obtain a refresh token.</p>
-                                    </li>
-                                    <li class="collection-item">
-                                        <p><b><span class="emphasis">state</span>=<span id="state"></span></b></p>
-                                        <p>State parameter. This is an <b>optional parameter</b> that the client can use to maintain
-                                            state between the request and callback. The authorization
-                                            server includes this parameter when redirecting the user back to the client,
-                                            allowing the client to verify that the response is coming from the
-                                            server and not a malicious third party (<a href="https://owasp.org/www-community/attacks/csrf" target="_blank">CSRF attack</a>).</p>
+                                        <p><b>expires_in</b></p>
+                                        <p>
+                                            This is the duration (in seconds) for which the <b>device_code</b> and <b>user_code</b> remain valid. After this time, both codes will
+                                            expire and the device will need to start the authorization process again if the user has not yet completed the
+                                            authorization step.
+                                        </p>
                                     </li>
                                 </ul>
-                                <p>All that we now need to do is click the button below and login with our credentials. 
-                                    For the purposes of this
-                                    playground we already took the liberty to create <b>user</b> with password <b>user</b> for you. After your credentials are successfully verified, you will be redirected back to this playground, to the URL we have specified in the <b>redirect_uri</b> query parameter of the request.</p>
+                                <p>Now we have everything to instruct user what to do...</p>
+                                </p>
                                 <div class="row flow-submit-container">
-                                    <a id="sendRequestBtn" class="waves-effect waves-light btn full-width"
-                                        href="#">Authenticate</a>
+                                    <a class="waves-effect waves-light btn full-width" href="/flow/dag-2">Continue</a>
                                 </div>
                             </div>
                         </div>
@@ -123,51 +138,43 @@
     </main>
     <footer class="page-footer"></footer>
     <script src="../js/load-layout.js"></script>
+    <script src="../js/cookies.js"></script>
+    <script src="../js/env-config.js"></script>
     <script>
-        function generateSessionState () {
-            return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-        }
+        const deviceUrl = baseUrl + "/device"
 
-        function constructRequestUrl () {
-            return baseUrl 
-                + "?" + "response_type=" + responseType 
-                + "&" + "client_id=" + clientId 
-                + "&" + "redirect_uri=" + redirectUri 
-                + "&" + "scope=" + scope 
-                + "&" + "state=" + state;
+        function getDeviceCode() {
+            const bodyData = new URLSearchParams();
+            bodyData.append('client_id', getClientId());
+            
+            fetch(deviceUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                },
+                body: bodyData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    setCookie("dag_response", JSON.stringify(data), data.expires_in / 60);
+                    $("#code-result").show();
+                    $("#response").text(JSON.stringify(data, null, 2));
+                    $("#get-code-btn").addClass("disabled");
+                    $([document.documentElement, document.body]).animate({
+                        scrollTop: $("#code-result").offset().top
+                    }, 1000);
+                })
+                .catch(error => {
+                    console.error('Error fetching the token:', error);
+                });
         }
 
         function fillExample() {
-            const requestExample = baseUrl + "\n"
-                + "    ?response_type=" + responseType + "\n"
-                + "    &client_id=" + clientId + "\n"
-                + "    &redirect_uri=" + redirectUri + "\n"
-                + "    &scope=" + scope + "\n"
-                + "    &state=" + state;
-            
-            $("#requestUriExample").text(baseUrl);
-            $("#requestBodyExample").text("client_id=" + clientId);
-            $("#baseUrl").text(baseUrl);
-            $("#responseType").text(responseType);
-            $("#clientId").text(clientId);
-            $("#redirectUri").text(redirectUri);
-            $("#scope").text(scope);
-            $("#state").text(state);
+            $("#requestUriExample").text(deviceUrl);
+            $("#requestBodyExample").text("client_id=" + getClientId());
         }
-
-        function getRedirectUri() {
-            return window.location.protocol + "//" + window.location.host + "/flow/code-2";
-        }
-
-        const baseUrl = "https://sso.rumbuddy.cz/realms/OAuthPlayground/protocol/openid-connect/device";
-        const responseType = "code";
-        const clientId = "oauth-playground";
-        const redirectUri = getRedirectUri();
-        const scope = "offline_access";
-        const state = generateSessionState();
 
         fillExample();
-        $("#sendRequestBtn").attr("href", constructRequestUrl());
     </script>
 </body>
 </html>
