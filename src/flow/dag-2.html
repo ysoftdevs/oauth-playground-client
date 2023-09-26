@@ -52,7 +52,7 @@
                 </div>
             </div>
             <div class="row section">
-                <div class="col s6">
+                <div class="col m6 s12">
                     <div class="card horizontal">
                         <div class="card-stacked">
                             <div class="card-content">
@@ -97,7 +97,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="user-panel" class="col s6" style="display: none;">
+                <div id="user-panel" class="col m6 s12" style="display: none;">
                     <div class="card horizontal">
                         <div class="card-stacked">
                             <div class="card-content">
@@ -105,18 +105,18 @@
                                 <p>Device would typically show the user code on it's display (or in console output when connection to display-less device via SSH for example) and where possible, also the URL that the user should visit. Based on the capabilities the URL could be shown as a simple text, or QR code, or if the device didn't have display capable enough, than the URL could be written in a manual distributed with the device.</p>
                                 
                                 <div class="row col s12" style="margin-top: 15px;">
-                                    <div class="col s2"></div>
-                                    <div class="col s3" style="padding-top: 5px;">
+                                    <div class="col m2 s0"></div>
+                                    <div class="col m3 s12" style="padding-top: 5px;">
                                         <h6>User code:</h6>
                                     </div>
-                                    <div class="col s3">
+                                    <div class="col m3 s9">
                                         <input id="user-code" type="text" disabled>
                                     </div>
-                                    <div class="col s2" style="padding-top: 5px;">
+                                    <div class="col m2 s3" style="padding-top: 5px;">
                                         <button title="Copy to clipboard" class="btn-floating waves-effect waves-light" style="background-color: #000000;" onclick="copyUserCodeToClipboard()"><i
                                                 class="material-icons" style="font-size:18px;">content_copy</i></button>
                                     </div>
-                                    <div class="col s2"></div>
+                                    <div class="col m2 s0"></div>
                                 </div>
                                 
                                 <p>Now that we have the user code, we can for example scan a QR code and finalize this flow on our mobile device:</p>
@@ -127,7 +127,7 @@
                                     Or for the purposes of this demo, you can click on the button below to open a new window, and finalize this flow there (<i>If no windows pops up, make sure that the pop-up window is not blocked</i>);
                                 </p>
                                 <div class="row flow-submit-container">
-                                    <a class="waves-effect waves-light btn full-width" onclick="initiateAuthentication()">Authenticate</a>
+                                    <a id="auth-btn" class="waves-effect waves-light btn full-width" onclick="initiateAuthentication()">Authenticate</a>
                                 </div>
                             </div>
                         </div>
@@ -271,6 +271,7 @@
 
         function processCodeFlowResult(data) {
             $("#start-polling-btn").text("Token obtained");
+            $("#auth-btn").addClass("disabled");
             $("#result-panel").show();
             $("#token").text(JSON.stringify(data, null, 2));
             $([document.documentElement, document.body]).animate({

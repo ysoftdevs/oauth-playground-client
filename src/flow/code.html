@@ -139,11 +139,11 @@
 
         function fillExample() {
             const requestExample = baseUrl + "\n"
-                + "    ?response_type=" + responseType + "\n"
-                + "    &client_id=" + getClientId() + "\n"
-                + "    &redirect_uri=" + redirectUri + "\n"
-                + "    &scope=" + scope + "\n"
-                + "    &state=" + state;
+                + "?response_type=" + responseType + "\n"
+                + "&client_id=" + getClientId() + "\n"
+                + "&redirect_uri=" + redirectUri + "\n"
+                + "&scope=" + scope + "\n"
+                + "&state=" + state;
             
             $("#requestUriExample").text(requestExample);
             $("#baseUrl").text(baseUrl);

@@ -65,10 +65,10 @@
                                 <p>Before we can start the authorization process, we need to create a <b>code verifier</b> and a <b>code challenge</b>. The code verifier is a cryptographically random string that is used to verify the identity of the client. The code challenge is a hashed version of the code verifier, which is sent to the authorization server. The authorization server will then compare the code challenge with the code verifier to verify the identity of the client.</p>
                                 </p>
                                 <div class="row" style="margin-top: 20px;">
-                                    <div class="col s3">
+                                    <div class="col m3 s12">
                                         <div class="waves-effect waves-light btn full-width" onclick="generateCodeVerifier()">Generate Code Verifier</div>
                                     </div>
-                                    <div class="col s9">
+                                    <div class="col m9 s12">
                                         <input id="codeVerifier" style="height: 30px;" type="text" disabled/>
                                     </div>
                                 </div>
@@ -76,10 +76,10 @@
                                 <p>Now that we habe the code verified, we need to create the code challenge. We do so by hashing the code verifier using the SHA256 algorithm and then encoding it using the URL-safe Base64 encoding.</p>
 
                                 <div class="row" style="margin-top: 20px;">
-                                    <div class="col s3">
+                                    <div class="col m3 s12">
                                         <div id="code-challenge-btn" class="waves-effect waves-light btn full-width disabled" onclick="generateCodeChallenge()">Generate Code Challenge</div>
                                     </div>
-                                    <div class="col s9">
+                                    <div class="col m9 s12">
                                         <input id="codeChallenge" style="height: 30px;" type="text" disabled />
                                     </div>
                                 </div>

@@ -75,15 +75,13 @@ body {
 }
 
 .btn:hover,
-.btn-large:hover,
-.btn-small:hover {
+.btn:active,
+.btn:focus {
     background-color: #FF6600;
 }
 
 /* For raised buttons */
-.btn:not(.disabled):hover,
-.btn-large:not(.disabled):hover,
-.btn-small:not(.disabled):hover {
+.btn:not(.disabled):hover {
     background-color: #FF6600;
     box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
@@ -229,4 +227,47 @@ pre {
 
 .qr-container {
     margin: 15px 0;
+}
+
+.page-header {
+    font-size: 2.1rem;
+    text-align: center;
+}
+
+@media screen and (max-width: 600px) {
+    .page-header {
+        font-size: 1.5rem;
+    }
+
+    .flow-card {
+        height: 100%;
+    }
+
+    .page-footer .footer-copyright {
+        min-height: 0;
+    }
+
+    .footer-copyright {
+        font-size: 0.7rem;
+    }
+
+    .intro-section {
+        text-align: justify;
+    }
+
+    code {
+        font-size: 0.8rem;
+    }
+
+    .code-block {
+        padding: 15px;
+    }
+
+    .circle-3 {
+        width: 80%;
+    }
+
+    .circle-4 {
+        width: 90%;
+    }
 }

@@ -157,13 +157,13 @@
 
         function fillExample() {
             const requestExample = baseUrl + "\n"
-                + "    ?response_type=" + responseType + "\n"
-                + "    &client_id=" + getClientId() + "\n"
-                + "    &redirect_uri=" + redirectUri + "\n"
-                + "    &scope=" + scope + "\n"
-                + "    &state=" + state + "\n"
-                + "    &code_challenge=" + codeChallenge + "\n"
-                + "    &code_challenge_method=S256";
+                + "?response_type=" + responseType + "\n"
+                + "&client_id=" + getClientId() + "\n"
+                + "&redirect_uri=" + redirectUri + "\n"
+                + "&scope=" + scope + "\n"
+                + "&state=" + state + "\n"
+                + "&code_challenge=" + codeChallenge + "\n"
+                + "&code_challenge_method=S256";
             
             $("#requestUriExample").text(requestExample);
             $("#baseUrl").text(baseUrl);
