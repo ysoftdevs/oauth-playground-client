@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,12 +20,13 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CVH4GP5T69"></script>
     <script src="../js/analytics.js"></script>
 </head>
+
 <body>
     <header id="page-header"></header>
     <main>
         <div class="container">
             <div class="section">
-                <h3 class="header centered">Authorization Code Flow</h3>
+                <h3 class="header centered">WebAuthn</h3>
                 <div class="circle-container circle-3">
                     <div class="circle">
                         1
@@ -57,8 +59,10 @@
                             <div class="card-content">
                                 <h6>1. Build the Authorization URL</h6>
                                 <p>
-                                    In order to initiate the <b>Authorization Code Flow</b>, we need to build the authorization URL
-                                    and redirect the user to the authorization server. The URL is constructed as follows:                                 
+                                    In order to initiate the <b>Authorization Code Flow</b>, we need to build the
+                                    authorization URL
+                                    and redirect the user to the authorization server. The URL is constructed as
+                                    follows:
                                 </p>
                                 <pre class="code-block"><code id="requestUriExample"></code></pre>
                                 <p>Let's break it down...</p>
@@ -66,46 +70,61 @@
                                     <li class="collection-item">
                                         <p><b><span id="baseUrl"></span></b>
                                         </p>
-                                        <p>URL of the authorization endpoint on the server. How is this path constructed will
+                                        <p>URL of the authorization endpoint on the server. How is this path constructed
+                                            will
                                             differ between OAuth providers (such as Keycloak, Okta, etc.).
                                         </p>
                                     </li>
                                     <li class="collection-item">
-                                        <p><b><span class="emphasis">response_type</span>=<span id="responseType"></span></b></p>
-                                        <p>OAuth 2.0 response type. In this case, we are using the Authorization Code flow, so
+                                        <p><b><span class="emphasis">response_type</span>=<span
+                                                    id="responseType"></span></b></p>
+                                        <p>OAuth 2.0 response type. In this case, we are using the Authorization Code
+                                            flow, so
                                             we are requesting the authorization <b>code</b>.</p>
                                     </li>
                                     <li class="collection-item">
-                                        <p><b><span class="emphasis">client_id</span>=<span id="clientId"></span></b></p>
-                                        <p>Client ID of the application. This is a public identifier for the client, and it is
+                                        <p><b><span class="emphasis">client_id</span>=<span id="clientId"></span></b>
+                                        </p>
+                                        <p>Client ID of the application. This is a public identifier for the client, and
+                                            it is
                                             used by the authorization server to identify the application
                                             when redirecting the user back to the client.</p>
                                     </li>
                                     <li class="collection-item">
-                                        <p><b><span class="emphasis">redirect_uri</span>=<span id="redirectUri"></span></b></p>
-                                        <p>Redirect URI of the client. This is the URL that the authorization server will
+                                        <p><b><span class="emphasis">redirect_uri</span>=<span
+                                                    id="redirectUri"></span></b></p>
+                                        <p>Redirect URI of the client. This is the URL that the authorization server
+                                            will
                                             redirect the user back to after the user has logged in and
-                                            granted permissions. The redirect URI must match one of the URIs registered for the
+                                            granted permissions. The redirect URI must match one of the URIs registered
+                                            for the
                                             client ID.</p>
                                     </li>
                                     <li class="collection-item">
                                         <p><b><span class="emphasis">scope</span>=<span id="scope"></span></b></p>
-                                        <p>Scopes requested by the client. Scopes are used to limit the access of the access
+                                        <p>Scopes requested by the client. Scopes are used to limit the access of the
+                                            access
                                             token. In this case, we are requesting the <b>offline_access</b> scope,
                                             which allows the client to obtain a refresh token.</p>
                                     </li>
                                     <li class="collection-item">
                                         <p><b><span class="emphasis">state</span>=<span id="state"></span></b></p>
-                                        <p>State parameter. This is an <b>optional parameter</b> that the client can use to maintain
+                                        <p>State parameter. This is an <b>optional parameter</b> that the client can use
+                                            to maintain
                                             state between the request and callback. The authorization
                                             server includes this parameter when redirecting the user back to the client,
                                             allowing the client to verify that the response is coming from the
-                                            server and not a malicious third party (<a href="https://owasp.org/www-community/attacks/csrf" target="_blank">CSRF attack</a>).</p>
+                                            server and not a malicious third party (<a
+                                                href="https://owasp.org/www-community/attacks/csrf" target="_blank">CSRF
+                                                attack</a>).</p>
                                     </li>
                                 </ul>
-                                <p>All that we now need to do is click the button below and login with our credentials. 
+                                <p>All that we now need to do is click the button below and login with our credentials.
                                     For the purposes of this
-                                    playground we already took the liberty to create <b>user</b> with password <b>user</b> for you. After your credentials are successfully verified, you will be redirected back to this playground, to the URL we have specified in the <b>redirect_uri</b> query parameter of the request.</p>
+                                    playground we already took the liberty to create <b>user</b> with password
+                                    <b>user</b> for you. After your credentials are successfully verified, you will be
+                                    redirected back to this playground, to the URL we have specified in the
+                                    <b>redirect_uri</b> query parameter of the request.</p>
                                 <div class="row flow-submit-container">
                                     <a id="sendRequestBtn" class="waves-effect waves-light btn full-width"
                                         href="#">Authenticate</a>
@@ -122,32 +141,33 @@
     </main>
     <footer class="page-footer"></footer>
     <script src="../js/load-layout.js"></script>
-    <script src="../js/cookies.js"></script>
     <script src="../js/env-config.js"></script>
     <script>
-        function generateSessionState () {
+        const authUrl = baseUrl + "/passwordless"
+        
+        function generateSessionState() {
             return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
         }
 
-        function constructRequestUrl () {
-            return baseUrl 
-                + "?" + "response_type=" + responseType 
-                + "&" + "client_id=" + getClientId() 
-                + "&" + "redirect_uri=" + redirectUri 
-                + "&" + "scope=" + scope 
+        function constructRequestUrl() {
+            return authUrl
+                + "?" + "response_type=" + responseType
+                + "&" + "client_id=" + getClientId()
+                + "&" + "redirect_uri=" + redirectUri
+                + "&" + "scope=" + scope
                 + "&" + "state=" + state;
         }
 
         function fillExample() {
-            const requestExample = baseUrl + "\n"
+            const requestExample = authUrl + "\n"
                 + "?response_type=" + responseType + "\n"
                 + "&client_id=" + getClientId() + "\n"
                 + "&redirect_uri=" + redirectUri + "\n"
                 + "&scope=" + scope + "\n"
                 + "&state=" + state;
-            
+
             $("#requestUriExample").text(requestExample);
-            $("#baseUrl").text(baseUrl);
+            $("#baseUrl").text(authUrl);
             $("#responseType").text(responseType);
             $("#clientId").text(getClientId());
             $("#redirectUri").text(redirectUri);
@@ -164,9 +184,9 @@
         const scope = "offline_access";
         const state = generateSessionState();
 
-        setCookie("state", state, 5);
         fillExample();
         $("#sendRequestBtn").attr("href", constructRequestUrl());
     </script>
 </body>
+
 </html>

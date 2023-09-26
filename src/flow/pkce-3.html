@@ -77,13 +77,6 @@
                                     </p>
                                     </li>
                                     <li class="collection-item">
-                                        <p><b><span class="emphasis">session_state</span>=<span id="sessionState"></span></b></p>
-                                        <p>The session state parameter is not a core part of the OAuth 2.0 specification, but it is used in OpenID Connect (OIDC)
-                                        to represent the state of the end user's session at the Authorization Server.
-                                        The client can use this value to help manage user sessions or to detect when the user's session at the Authorization
-                                        Server changes (for example, if the user logs out).</p>
-                                    </li>
-                                    <li class="collection-item">
                                         <p><b><span class="emphasis">code</span>=<span id="code"></span></b></p>
                                         <p>The code parameter contains the actual authorization code. This is a temporary code that the client can exchange for an
                                         access token (and optionally, a refresh token) by making a back-channel request to the Authorization Server.
@@ -91,10 +84,17 @@
                                         the structure.</p>
                                     </li>
                                 </ul>
-                                <p>Now we have everything necessary to obtain token for the user. But is the state we have sent equivalent to the one we received back?</p>
+                                <p>Now we have everything necessary to obtain token for the user. But is the state we have sent (<b><span
+                                            id="sent-state"></span></b>) equivalent to the one we received back (<b><span
+                                            id="received-state"></span></b>)?</p>
                                 <div class="row flow-submit-container">
-                                    <a class="waves-effect waves-light btn full-width"
-                                        onclick="proceedToNextStep()">States are matching</a>
+                                    <div class="col m6 s12" style="margin-bottom: 5px;">
+                                        <a class="waves-effect waves-light btn btn-success full-width" onclick="proceedToNextStep()">States are
+                                            matching</a>
+                                    </div>
+                                    <div class="col m6 s12">
+                                        <a class="waves-effect waves-light btn btn-error full-width" href="/flow/code">States are not matching</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -108,16 +108,18 @@
     </main>
     <footer class="page-footer"></footer>
     <script src="../js/load-layout.js"></script>
+    <script src="../js/cookies.js"></script>
     <script>
         $("#queryParams").text(window.location.search)
 
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get('code');
         const state = urlParams.get('state');
-        const sessionState = urlParams.get('session_state');
+        const sentState = getCookie("pkce-state");
 
         $("#state").text(state);
-        $("#sessionState").text(sessionState);
+        $("#sent-state").text(sentState);
+        $("#received-state").text(state);
         $("#code").text(code);
 
         function proceedToNextStep() {
