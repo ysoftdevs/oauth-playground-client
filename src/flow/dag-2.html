@@ -206,11 +206,16 @@
     <script src="../js/env-config.js"></script>
     <script>
         const tokenUrl = baseUrl + "/token"
-        const dagResponse = JSON.parse(getCookie("dag_response"));
+        var dagResponse;
+
+        try {
+            dagResponse = JSON.parse(getCookie("dag_response"));
+        } catch(e) {
+            window.location = "/flow/expired";
+        }
+
         var pollingInterval = null;
         var pollingAnimationInterval = null;
-
-        console.debug(dagResponse);
 
         function showUserPanel() {
             $("#line-2").removeClass("line-inactive");

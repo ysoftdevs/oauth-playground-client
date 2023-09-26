@@ -110,13 +110,16 @@
     <script src="../js/load-layout.js"></script>
     <script src="../js/cookies.js"></script>
     <script>
-        $("#queryParams").text(window.location.search)
-
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get('code');
         const state = urlParams.get('state');
         const sentState = getCookie("pkce-state");
 
+        if (!code || !state || !sentState) {
+            window.location = "/flow/expired";
+        }
+
+        $("#queryParams").text(window.location.search)
         $("#state").text(state);
         $("#sent-state").text(sentState);
         $("#received-state").text(state);

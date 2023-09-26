@@ -186,6 +186,10 @@
         const state = generateSessionState();
         const codeChallenge = getCookie("code_challenge");
 
+        if (!codeChallenge) {
+            window.location = "/flow/expired";
+        }
+
         setCookie("pkce-state", state, 5);
         fillExample();
         $("#sendRequestBtn").attr("href", constructRequestUrl());

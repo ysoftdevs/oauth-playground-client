@@ -175,6 +175,10 @@
         const code = new URLSearchParams(window.location.search).get('code');
         const codeVerifier = getCookie("code_verifier");
 
+        if (!code || !codeVerifier) {
+            window.location = "/flow/expired";
+        }
+
         function fillRequestExample() {
             const requestExample = 
                 "grant_type=authorization_code" + "\n"

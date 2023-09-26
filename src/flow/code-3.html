@@ -160,6 +160,10 @@
         const tokenEndpoint = baseUrl + "/token";
         const code = new URLSearchParams(window.location.search).get('code');
 
+        if (!code) {
+            window.location = "/flow/expired";
+        }
+
         function fillRequestExample() {
             const requestExample = 
                 "grant_type=authorization_code" + "\n"
