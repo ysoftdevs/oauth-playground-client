@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OAuth 2.0 Playground - Authorization Code Flow</title>
     <meta name="description"
-        content="Dive deep into the Authorization Code Flow with our interactive guide. Understand its workings, best practices, and its role in OAuth for secure user authentication. Ideal for developers aiming for robust web app integrations." />
+        content="Step into the future of authentication with our WebAuthn guide. Experience firsthand how this web-based API redefines security, enabling passwordless and biometric verifications. Crucial for developers aiming to elevate user experience and protection in web apps." />
     <link rel="icon" href="../favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link type="text/css" rel="stylesheet" href="../css/style.css" />
@@ -59,9 +59,9 @@
                             <div class="card-content">
                                 <h6>1. Build the Authorization URL</h6>
                                 <p>
-                                    In order to initiate the <b>Authorization Code Flow</b>, we need to build the
+                                    In order to initiate the <b>WebAuthn</b>, we proceed the same way as we would if we would be using <b>Authorization Code Flow</b> we need to build the
                                     authorization URL
-                                    and redirect the user to the authorization server. The URL is constructed as
+                                    and redirect the user to the authorization server. All the passwordless logic is handled completely by the authorization server. The URL is constructed as
                                     follows:
                                 </p>
                                 <pre class="code-block"><code id="requestUriExample"></code></pre>
@@ -119,10 +119,7 @@
                                                 attack</a>).</p>
                                     </li>
                                 </ul>
-                                <p>All that we now need to do is click the button below and login with our credentials.
-                                    For the purposes of this
-                                    playground we already took the liberty to create <b>user</b> with password
-                                    <b>user</b> for you. After your credentials are successfully verified, you will be
+                                <p>All that we now need to do is click the button below and perform the <b>Web Authentication Flow</b> on the server. After your account will be successfully verified, you will be
                                     redirected back to this playground, to the URL we have specified in the
                                     <b>redirect_uri</b> query parameter of the request.</p>
                                 <div class="row flow-submit-container">
@@ -141,6 +138,7 @@
     </main>
     <footer class="page-footer"></footer>
     <script src="../js/load-layout.js"></script>
+    <script src="../js/cookies.js"></script>
     <script src="../js/env-config.js"></script>
     <script>
         const authUrl = baseUrl + "/passwordless"
@@ -183,6 +181,7 @@
         const redirectUri = getRedirectUri();
         const scope = "offline_access";
         const state = generateSessionState();
+        setCookie("webauth-state", state, 5);
 
         fillExample();
         $("#sendRequestBtn").attr("href", constructRequestUrl());
