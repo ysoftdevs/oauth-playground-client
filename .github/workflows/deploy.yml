@@ -1,4 +1,4 @@
-name: OAuth playground client deploy
+name: Deploy
 
 on:
   workflow_dispatch:
