@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OAuth 2.0 Playground - Authorization Code Flow</title>
+    <title>OAuth 2.0 Playground - WebAuthn</title>
     <meta name="description"
         content="Step into the future of authentication with our WebAuthn guide. Experience firsthand how this web-based API redefines security, enabling passwordless and biometric verifications. Crucial for developers aiming to elevate user experience and protection in web apps." />
     <link rel="icon" href="../favicon.ico" type="image/x-icon">
@@ -174,7 +174,7 @@
         }
 
         function getRedirectUri() {
-            return window.location.protocol + "//" + window.location.host + "/flow/code-2";
+            return window.location.protocol + "//" + window.location.host + "/flow/webauthn-2";
         }
 
         const responseType = "code";

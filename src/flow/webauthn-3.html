@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OAuth 2.0 Playground - WebAuthn (3/3)</title>
+    <meta name="description"
+        content="Step into the future of authentication with our WebAuthn guide. Experience firsthand how this web-based API redefines security, enabling passwordless and biometric verifications. Crucial for developers aiming to elevate user experience and protection in web apps." />
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link type="text/css" rel="stylesheet" href="../css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CVH4GP5T69"></script>
+    <script src="../js/analytics.js"></script>
+</head>
+<body>
+    <header id="page-header"></header>
+    <main>
+        <div class="container">
+            <div class="section">
+                <h3 class="header centered">WebAuthn</h3>
+                <div class="circle-container circle-3">
+                    <div class="circle">
+                        1
+                    </div>
+                    <div class="line"></div>
+                    <div class="circle">
+                        2
+                    </div>
+                    <div class="line"></div>
+                    <div class="circle">
+                        3
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s4 circle-text">
+                        Build the authorization URL and redirect the user to the authorization server
+                    </div>
+                    <div class="col s4 circle-text">
+                        After the user is redirected back to the client, verify that the state matches
+                    </div>
+                    <div class="col s4 circle-text">
+                        Exchange the authorization code for an access token
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="col s12 m7">
+                    <div class="card horizontal">
+                        <div class="card-stacked">
+                            <div class="card-content">
+                                <h6>3. Exchange the code for token</h6>
+                                <p>Now that we have the authorization code, we can exchange it for an access token. This is done by sending a <b>POST</b> request to the token endpoint.</p>
+                                <pre class="code-block"><code id="requestUriExample"></code></pre>
+                                <p>With body data:</p>
+                                <pre class="code-block"><code id="requestBodyExample"></code></pre>
+                                <p6>Let's break it down...</p>
+                                <ul class="collection">
+                                    <li class="collection-item">
+                                        <p><b><span id="tokenUrl"></span></b></p>
+                                        <p>The token endpoint URL</p>
+                                    </li>
+                                    <li class="collection-item">
+                                        <p><b><span class="emphasis">grant_type</span>=<span id="grantType"></span></b></p>
+                                        <p>The grant type, in this case <b>authorization_code</b></p>
+                                    </li>
+                                    <li class="collection-item">
+                                        <p><b><span class="emphasis">client_id</span>=<span id="clientId"></span></b></p>
+                                        <p>Client ID of the application. This is a public identifier for the client, and it is
+                                            used by the authorization server to identify the application
+                                            when redirecting the user back to the client.</p>
+                                    </li>
+                                    <li class="collection-item">
+                                        <p><b><span class="emphasis">redirect_uri</span>=<span id="redirectUri"></span></b></p>
+                                        <p>The redirect URI</p>
+                                    </li>
+                                    <li class="collection-item">
+                                        <p><b><span class="emphasis">code</span>=<span id="code"></span></b></p>
+                                        <p>This is the authorization code we got in the previous step and is used to obtain the
+                                            access token.</p>
+                                    </li>
+                                </ul>
+                                <div class="row flow-submit-container">
+                                    <a id="get-token-btn" class="waves-effect waves-light btn full-width"
+                                        onClick="getToken()">Get access token</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="token-result" style="display: none;" class="section">
+                <div class="col s12 m7">
+                    <div class="card horizontal">
+                        <div class="card-stacked">
+                            <div class="card-content">
+                                <h6>Congratulations, you have just obtained an <b>access token</b></h6>
+                                <pre class="code-block"><code id="token"></code></pre>
+                                <h6>Let's break down what we have received...</h6>
+                                <ul class="collection">
+                                    <li class="collection-item">
+                                        <p><b>token_type</b></p>
+                                        <p>Indicates the type of token issued. In OAuth 2.0, the common type is "Bearer", which means that whoever bears
+                                            the token
+                                            can access the resources.</p>
+                                    </li>
+                                    <li class="collection-item">
+                                        <p><b>expires_in</b></p>
+                                        <p>Indicates the number of seconds for which the <b>access_token</b> is valid. After this time, the access_token
+                                            will expire and a
+                                            new one must be obtained.</p>
+                                    </li>
+                                    <li class="collection-item">
+                                        <p><b>access_token</b></p>
+                                        <p>This is the actual access token, which allows the client application to access the user's protected resources
+                                            on the
+                                            resource server (e.g., user profile, photos, etc.).
+                                        </p>
+                                    </li>
+                                    <li class="collection-item">
+                                        <p><b>refresh_token</b></p>
+                                        <p>Used to obtain a new <b>access_token</b> when the current one expires. This allows the client to get a new
+                                            <b>access_token</b> without
+                                            requiring the user to log in again.
+                                        </p>
+                                    </li>
+                                    <li class="collection-item">
+                                        <p><b>scope</b></p>
+                                        <p>Specifies the scopes granted by the user to the client application. Scopes determine the permissions
+                                            associated with the
+                                            <b>access_token</b>. Here, the granted scopes are email, offline_access, and profile. This means that with
+                                            the provided access_token, the
+                                            client application can access the user's email and profile information and is also granted offline access
+                                            (typically
+                                            used in conjunction with refresh tokens).
+                                        </p>
+                                    </li>
+                                </ul>
+                                <p>And this concludes the Authorization Code Flow. Client application would now be able to request resources on users behalf without having to transfer his credentials with each request.</p>
+                                <div class="row flow-submit-container">
+                                    <a class="waves-effect waves-light btn full-width" href="/">Try different flow</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="page-footer"></footer>
+    <script src="../js/load-layout.js"></script>
+    <script src="../js/env-config.js"></script>
+    <script>
+        const tokenEndpoint = baseUrl + "/token";
+        const code = new URLSearchParams(window.location.search).get('code');
+
+        if (!code) {
+            window.location = "/flow/expired";
+        }
+
+        function fillRequestExample() {
+            const requestExample = 
+                "grant_type=authorization_code" + "\n"
+                + "&client_id=" + getClientId() + "\n"
+                + "&redirect_uri=" + getRedirectUri() + "\n"
+                + "&code=" + code;
+
+            $("#requestUriExample").text(tokenEndpoint);
+            $("#requestBodyExample").text(requestExample);
+
+            $("#tokenUrl").text(tokenEndpoint);
+            $("#grantType").text("authorization_code");
+            $("#clientId").text(getClientId());
+            $("#redirectUri").text(getRedirectUri());
+            $("#code").text(code);
+        }
+
+        function getRedirectUri() {
+            return window.location.protocol + "//" + window.location.host + "/flow/webauthn-2";
+        }
+
+        function getToken() {
+            const redirectURI = getRedirectUri();
+
+            const bodyData = new URLSearchParams();
+            bodyData.append('grant_type', 'authorization_code');
+            bodyData.append('client_id', getClientId());
+            bodyData.append('redirect_uri', getRedirectUri());
+            bodyData.append('code', code);
+
+            fetch(tokenEndpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                },
+                body: bodyData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    $("#token-result").show();
+                    $("#token").text(JSON.stringify(data, null, 2));
+                    $("#get-token-btn").hide();
+                    $([document.documentElement, document.body]).animate({
+                        scrollTop: $("#token-result").offset().top
+                    }, 1000);
+                })
+                .catch(error => {
+                    console.error('Error fetching the token:', error);
+                });
+        }
+
+        fillRequestExample();
+    </script>
+</body>
+</html>

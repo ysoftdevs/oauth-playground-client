@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OAuth 2.0 Playground - WebAuthn (2/3)</title>
+    <meta name="description"
+        content="Step into the future of authentication with our WebAuthn guide. Experience firsthand how this web-based API redefines security, enabling passwordless and biometric verifications. Crucial for developers aiming to elevate user experience and protection in web apps." />
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link type="text/css" rel="stylesheet" href="../css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CVH4GP5T69"></script>
+    <script src="../js/analytics.js"></script>
+</head>
+<body>
+    <header id="page-header"></header>
+    <main>
+        <div class="container">
+            <div class="section">
+                <h3 class="header centered">WebAuthn</h3>
+                <div class="circle-container circle-3">
+                    <div class="circle">
+                        1
+                    </div>
+                    <div class="line"></div>
+                    <div class="circle">
+                        2
+                    </div>
+                    <div class="line line-inactive"></div>
+                    <div class="circle circle-inactive">
+                        3
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s4 circle-text">
+                        Build the authorization URL and redirect the user to the authorization server
+                    </div>
+                    <div class="col s4 circle-text">
+                        After the user is redirected back to the client, verify that the state matches
+                    </div>
+                    <div class="col s4 circle-text">
+                        Exchange the authorization code for an access token
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="col s12 m7">
+                    <div class="card horizontal">
+                        <div class="card-stacked">
+                            <div class="card-content">
+                                <h6>2. Verify the state parameter</h6>
+                                <p>You have now been redirected back to the application, to the page that was specified in the <b>redirect-url</b> parameter. In the URL you can notice, that there are addtional query parameters:</p>
+                                <pre class="code-block"><code id="queryParams"></code></pre>
+                                <p>Let's break it down...</p>
+                                <ul class="collection">
+                                    <li class="collection-item">
+                                        <p><b><span class="emphasis">state</span>=<span id="state"></span></b></p>
+                                        <p>The state parameter is an opaque value used by the client to maintain state between the request and the callback.
+                                        Essentially, it is used to prevent Cross-Site Request Forgery (<a href="https://owasp.org/www-community/attacks/csrf" target="_blank">CSRF</a>) attacks and to ensure the response belongs to the request made by the client.
+                                    </p>
+                                    </li>
+                                    <li class="collection-item">
+                                        <p><b><span class="emphasis">code</span>=<span id="code"></span></b></p>
+                                        <p>The code parameter contains the actual authorization code. This is a temporary code that the client can exchange for an
+                                        access token (and optionally, a refresh token) by making a back-channel request to the Authorization Server.
+                                        The format and structure of the code is determined by the Authorization Server. It can be just a random string, or a more complex construction. The exact significance of this structure is specific to the Authorization Server implementation and might include different identifiers or information encoded in
+                                        the structure.</p>
+                                    </li>
+                                </ul>
+                                <p>Now we have everything necessary to obtain token for the user. But is the state we have sent (<b><span id="sent-state"></span></b>) equivalent to the one we received back (<b><span id="received-state"></span></b>)?</p>
+                                <div class="row flow-submit-container">
+                                    <div class="col m6 s12" style="margin-bottom: 5px;">
+                                        <a class="waves-effect waves-light btn btn-success full-width" onclick="proceedToNextStep()">States are matching</a>
+                                    </div>
+                                    <div class="col m6 s12">
+                                        <a class="waves-effect waves-light btn btn-error full-width" href="/flow/code">States are not matching</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section centered">
+                <a href="/">[ Take me home ]</a>
+            </div>
+        </div>
+    </main>
+    <footer class="page-footer"></footer>
+    <script src="../js/load-layout.js"></script>
+    <script src="../js/cookies.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get("code");
+        const state = urlParams.get("state");
+        const sentState = getCookie("webauth-state");
+
+        if (!code || !state || !sentState) {
+            window.location = "/flow/expired";
+        }
+
+        $("#queryParams").text(window.location.search)
+        $("#state").text(state);
+        $("#sent-state").text(sentState);
+        $("#received-state").text(state);
+        $("#code").text(code);
+
+        function proceedToNextStep() {
+            window.location.href = "/flow/webauthn-3" + window.location.search;
+        }
+    </script>
+</body>
+</html>
