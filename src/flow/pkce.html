@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,14 +11,14 @@
     <link type="text/css" rel="stylesheet" href="../css/style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CVH4GP5T69"></script>
     <script src="../js/analytics.js"></script>
 </head>
+
 <body>
     <header id="page-header"></header>
     <main>
@@ -62,7 +63,9 @@
                         <div class="card-stacked">
                             <div class="card-content">
                                 <h6>1. Create a Code Verifier and Challenge</h6>
-                                <p>Before we can start the authorization process, we need to create a <b>code verifier</b> and a <b>code challenge</b>. The code verifier is a cryptographically random string that is used to verify the identity of the client. The code challenge is a hashed version of the code verifier, which is sent to the authorization server. The authorization server will then compare the code challenge with the code verifier to verify the identity of the client.</p>
+                                <p>
+                                    Before we can start the authorization process, we need to create a <b>code verifier</b> and a <b>code challenge</b>. The code verifier is a cryptographically random string that is used to verify the identity of the client. The code challenge is a hashed version of the code verifier, which is sent to the authorization server. The authorization server will then compare the code challenge with the code verifier to verify the identity of the client.
+                                </p>
                                 </p>
                                 <div class="row" style="margin-top: 20px;">
                                     <div class="col m3 s12">
@@ -72,9 +75,10 @@
                                         <input id="codeVerifier" style="height: 30px;" type="text" disabled/>
                                     </div>
                                 </div>
-                                
-                                <p>Now that we habe the code verified, we need to create the code challenge. We do so by hashing the code verifier using the SHA256 algorithm and then encoding it using the URL-safe Base64 encoding.</p>
-
+                                <p>
+                                    Now that we habe the code verified, we need to create the code challenge. We do so by hashing the code verifier using the SHA256 algorithm and 
+                                    then encoding it using the URL-safe Base64 encoding.
+                                </p>
                                 <div class="row" style="margin-top: 20px;">
                                     <div class="col m3 s12">
                                         <div id="code-challenge-btn" class="waves-effect waves-light btn full-width disabled" onclick="generateCodeChallenge()">Generate Code Challenge</div>
@@ -83,12 +87,10 @@
                                         <input id="codeChallenge" style="height: 30px;" type="text" disabled />
                                     </div>
                                 </div>
-                                
                                 <p>Now that we have the code verifier and code challenge, we can start the authorization process.</p>
                                 </p>
                                 <div class="row flow-submit-container">
-                                    <a id="continue-btn" class="waves-effect waves-light btn full-width disabled"
-                                        href="/flow/pkce-2">Continue</a>
+                                    <a id="continue-btn" class="waves-effect waves-light btn full-width disabled" href="/flow/pkce-2">Continue</a>
                                 </div>
                             </div>
                         </div>
@@ -124,10 +126,7 @@
             const verifier = $('#codeVerifier').val();
             const encoder = new TextEncoder();
             const data = encoder.encode(verifier);
-
             const digest = await crypto.subtle.digest('SHA-256', data);
-
-            // Convert hash to Base64 URL encoded string
             const base64UrlEncoded = btoa(String.fromCharCode(...new Uint8Array(digest)))
                 .replace('+', '-')
                 .replace('/', '_')
@@ -140,5 +139,4 @@
         }
     </script>
 </body>
-
 </html>

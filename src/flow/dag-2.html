@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,8 +12,7 @@
     <link type="text/css" rel="stylesheet" href="../css/style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
@@ -20,6 +20,7 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CVH4GP5T69"></script>
     <script src="../js/analytics.js"></script>
 </head>
+
 <body>
     <header id="page-header"></header>
     <main>
@@ -73,21 +74,16 @@
                                         <p><b><span class="emphasis">client_id</span>=<span id="client-id"></span></b></p>
                                         <p>
                                             Client ID of the application. This is a public identifier for the client, and it is
-                                            used by the authorization server to identify the application
-                                            when redirecting the user back to the client.
+                                            used by the authorization server to identify the application when redirecting the user back to the client.
                                         </p>
                                     </li>
                                     <li class="collection-item">
                                         <p><b><span class="emphasis">device_code</span>=<span id="device-code"></span></b></p>
-                                        <p>
-                                            Device code we have obtained in the previous step.
-                                        </p>
+                                        <p>Device code we have obtained in the previous step.</p>
                                     </li>
                                 </ul>
-                                
                                 <div class="row flow-submit-container">
-                                    <a id="start-polling-btn" class="waves-effect waves-light btn full-width"
-                                        onclick="startPolling()">Start polling</a>
+                                    <a id="start-polling-btn" class="waves-effect waves-light btn full-width" onclick="startPolling()">Start polling</a>
                                     <div class="progress no-margin">
                                         <div id="polling-bar" class="determinate" style="width: 0%"></div>
                                     </div>
@@ -102,8 +98,9 @@
                         <div class="card-stacked">
                             <div class="card-content">
                                 <h6>3. Instruct the user where to enter the code</h6>
-                                <p>Device would typically show the user code on it's display (or in console output when connection to display-less device via SSH for example) and where possible, also the URL that the user should visit. Based on the capabilities the URL could be shown as a simple text, or QR code, or if the device didn't have display capable enough, than the URL could be written in a manual distributed with the device.</p>
-                                
+                                <p>
+                                    Device would typically show the user code on it's display (or in console output when connection to display-less device via SSH for example) and where possible, also the URL that the user should visit. Based on the capabilities the URL could be shown as a simple text, or QR code, or if the device didn't have display capable enough, than the URL could be written in a manual distributed with the device.
+                                </p>
                                 <div class="row col s12" style="margin-top: 15px;">
                                     <div class="col m2 s0"></div>
                                     <div class="col m3 s12" style="padding-top: 5px;">
@@ -113,12 +110,12 @@
                                         <input id="user-code" type="text" disabled>
                                     </div>
                                     <div class="col m2 s3" style="padding-top: 5px;">
-                                        <button title="Copy to clipboard" class="btn-floating waves-effect waves-light" style="background-color: #000000;" onclick="copyUserCodeToClipboard()"><i
-                                                class="material-icons" style="font-size:18px;">content_copy</i></button>
+                                        <button title="Copy to clipboard" class="btn-floating waves-effect waves-light" style="background-color: #000000;" onclick="copyUserCodeToClipboard()">
+                                            <i class="material-icons" style="font-size:18px;">content_copy</i>
+                                        </button>
                                     </div>
                                     <div class="col m2 s0"></div>
                                 </div>
-                                
                                 <p>Now that we have the user code, we can for example scan a QR code and finalize this flow on our mobile device:</p>
                                 <div class="row qr-container">
                                     <div id="qrcode" style="margin: 0 auto;"></div>
@@ -143,50 +140,46 @@
                                 <ul class="collection">
                                     <li class="collection-item">
                                         <p><b>token_type</b></p>
-                                        <p>Indicates the type of token issued. In OAuth 2.0, the common type is "Bearer", which means that whoever
-                                            bears
-                                            the token
-                                            can access the resources.</p>
+                                        <p>
+                                            Indicates the type of token issued. In OAuth 2.0, the common type is "Bearer", which means that whoever
+                                            bears the token can access the resources.
+                                        </p>
                                     </li>
                                     <li class="collection-item">
                                         <p><b>expires_in</b></p>
-                                        <p>Indicates the number of seconds for which the <b>access_token</b> is valid. After this time, the
-                                            access_token
-                                            will expire and a
-                                            new one must be obtained.</p>
+                                        <p>
+                                            Indicates the number of seconds for which the <b>access_token</b> is valid. After this time, the
+                                            access_token will expire and a new one must be obtained.
+                                        </p>
                                     </li>
                                     <li class="collection-item">
                                         <p><b>access_token</b></p>
-                                        <p>This is the actual access token, which allows the client application to access the user's protected
-                                            resources
-                                            on the
-                                            resource server (e.g., user profile, photos, etc.).
+                                        <p>
+                                            This is the actual access token, which allows the client application to access the user's protected
+                                            resources on the resource server (e.g., user profile, photos, etc.).
                                         </p>
                                     </li>
                                     <li class="collection-item">
                                         <p><b>refresh_token</b></p>
-                                        <p>Used to obtain a new <b>access_token</b> when the current one expires. This allows the client to get a
-                                            new
-                                            <b>access_token</b> without
-                                            requiring the user to log in again.
+                                        <p>
+                                            Used to obtain a new <b>access_token</b> when the current one expires. This allows the client to get a
+                                            new <b>access_token</b> without requiring the user to log in again.
                                         </p>
                                     </li>
                                     <li class="collection-item">
                                         <p><b>scope</b></p>
-                                        <p>Specifies the scopes granted by the user to the client application. Scopes determine the permissions
-                                            associated with the
-                                            <b>access_token</b>. Here, the granted scopes are email, offline_access, and profile. This means that
-                                            with
-                                            the provided access_token, the
-                                            client application can access the user's email and profile information and is also granted offline
-                                            access
-                                            (typically
-                                            used in conjunction with refresh tokens).
+                                        <p>
+                                            Specifies the scopes granted by the user to the client application. Scopes determine the permissions
+                                            associated with the <b>access_token</b>. Here, the granted scopes are email, offline_access, and profile. This means that
+                                            with the provided access_token, the client application can access the user's email and profile information and is also granted offline
+                                            access (typically used in conjunction with refresh tokens).
                                         </p>
                                     </li>
                                 </ul>
-                                <p>And this concludes the Device Authorization Grant flow. Client application would now be able to request resources on
-                                    users behalf without having to transfer his credentials with each request.</p>
+                                <p>
+                                    And this concludes the Device Authorization Grant flow. Client application would now be able to request resources on
+                                    users behalf without having to transfer his credentials with each request.
+                                </p>
                                 <div class="row flow-submit-container">
                                     <a class="waves-effect waves-light btn full-width" href="/">Try different flow</a>
                                 </div>

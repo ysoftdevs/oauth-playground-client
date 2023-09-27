@@ -11,8 +11,7 @@
     <link type="text/css" rel="stylesheet" href="../css/style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
@@ -63,67 +62,78 @@
                         <div class="card-stacked">
                             <div class="card-content">
                                 <h6>2. Build the Authorization URL</h6>
-                                <p>
-                                    First we need to build the authorization URL and redirect the user to the authorization server. The URL is constructed as follows:                                 
-                                </p>
+                                <p>First we need to build the authorization URL and redirect the user to the authorization server. The URL is constructed as follows:</p>
                                 <pre class="code-block"><code id="requestUriExample"></code></pre>
                                 <p>Let's break it down...</p>
                                 <ul class="collection">
                                     <li class="collection-item">
-                                        <p><b><span id="baseUrl"></span></b>
-                                        </p>
-                                        <p>URL of the authorization endpoint on the server. How is this path constructed will
+                                        <p><b><span id="baseUrl"></span></b></p>
+                                        <p>
+                                            URL of the authorization endpoint on the server. How is this path constructed will
                                             differ between OAuth providers (such as Keycloak, Okta, etc.).
                                         </p>
                                     </li>
                                     <li class="collection-item">
                                         <p><b><span class="emphasis">response_type</span>=<span id="responseType"></span></b></p>
-                                        <p>OAuth 2.0 response type. In this case, we are using the Authorization Code flow, so
-                                            we are requesting the authorization <b>code</b>.</p>
+                                        <p>
+                                            OAuth 2.0 response type. In this case, we are using the Authorization Code flow, so
+                                            we are requesting the authorization <b>code</b>.
+                                        </p>
                                     </li>
                                     <li class="collection-item">
                                         <p><b><span class="emphasis">client_id</span>=<span id="clientId"></span></b></p>
-                                        <p>Client ID of the application. This is a public identifier for the client, and it is
+                                        <p>
+                                            Client ID of the application. This is a public identifier for the client, and it is
                                             used by the authorization server to identify the application
-                                            when redirecting the user back to the client.</p>
+                                            when redirecting the user back to the client.
+                                        </p>
                                     </li>
                                     <li class="collection-item">
                                         <p><b><span class="emphasis">redirect_uri</span>=<span id="redirectUri"></span></b></p>
-                                        <p>Redirect URI of the client. This is the URL that the authorization server will
-                                            redirect the user back to after the user has logged in and
-                                            granted permissions. The redirect URI must match one of the URIs registered for the
-                                            client ID.</p>
+                                        <p>
+                                            Redirect URI of the client. This is the URL that the authorization server will
+                                            redirect the user back to after the user has logged in and granted permissions. 
+                                            The redirect URI must match one of the URIs registered for the client ID.
+                                        </p>
                                     </li>
                                     <li class="collection-item">
                                         <p><b><span class="emphasis">scope</span>=<span id="scope"></span></b></p>
-                                        <p>Scopes requested by the client. Scopes are used to limit the access of the access
+                                        <p>
+                                            Scopes requested by the client. Scopes are used to limit the access of the access
                                             token. In this case, we are requesting the <b>offline_access</b> scope,
-                                            which allows the client to obtain a refresh token.</p>
+                                            which allows the client to obtain a refresh token.
+                                        </p>
                                     </li>
                                     <li class="collection-item">
                                         <p><b><span class="emphasis">state</span>=<span id="state"></span></b></p>
-                                        <p>State parameter. This is an <b>optional parameter</b> that the client can use to maintain
-                                            state between the request and callback. The authorization
-                                            server includes this parameter when redirecting the user back to the client,
-                                            allowing the client to verify that the response is coming from the
-                                            server and not a malicious third party (<a href="https://owasp.org/www-community/attacks/csrf" target="_blank">CSRF attack</a>).</p>
+                                        <p>
+                                            State parameter. This is an <b>optional parameter</b> that the client can use to maintain
+                                            state between the request and callback. The authorization server includes this parameter when redirecting the 
+                                            user back to the client, allowing the client to verify that the response is coming from the
+                                            server and not a malicious third party (<a href="https://owasp.org/www-community/attacks/csrf" target="_blank">CSRF attack</a>).
+                                        </p>
                                     </li>
                                     <li class="collection-item">
                                         <p><b><span class="emphasis">code_challenge</span>=<span id="codeChallenge"></span></b></p>
-                                        <p>This is the code challenge we have created in the previous step. This ensures that even if an attacker intercepts the authorization code, they can't exchange it for an access token without the original code verifier.</p>
+                                        <p>
+                                            This is the code challenge we have created in the previous step. This ensures that even if an attacker intercepts the 
+                                            authorization code, they can't exchange it for an access token without the original code verifier.
+                                        </p>
                                     </li>
                                     <li class="collection-item">
                                         <p><b><span class="emphasis">code_challenge_method</span>=<span id="codeChallengeMethod"></span></b></p>
-                                        <p>Code Challenge method tells the identity provider how the <b>code_challenge</b> was generated from the original code verifier. <b>S256</b> means that
-                                        the challenge is a base64url encoding of the SHA-256 hash of the verifier. This is the recommended method for PKCE.</p>
+                                        <p>
+                                            Code Challenge method tells the identity provider how the <b>code_challenge</b> was generated from the original code 
+                                            verifier. <b>S256</b> means that the challenge is a base64url encoding of the SHA-256 hash of the verifier. This is the recommended method for PKCE.
+                                        </p>
                                     </li>
                                 </ul>
-                                <p>All that we now need to do is click the button below and login with our credentials. 
-                                    For the purposes of this
-                                    playground we already took the liberty to create <b>user</b> with password <b>user</b> for you. After your credentials are successfully verified, you will be redirected back to this playground, to the URL we have specified in the <b>redirect_uri</b> query parameter of the request.</p>
+                                <p>
+                                    All that we now need to do is click the button below and login with our credentials. For the purposes of this playground we already 
+                                    took the liberty to create <b>user</b> with password <b>user</b> for you. After your credentials are successfully verified, you will be redirected back to this playground, to the URL we have specified in the <b>redirect_uri</b> query parameter of the request.
+                                </p>
                                 <div class="row flow-submit-container">
-                                    <a id="sendRequestBtn" class="waves-effect waves-light btn full-width"
-                                        href="#">Authenticate</a>
+                                    <a id="sendRequestBtn" class="waves-effect waves-light btn full-width" href="#">Authenticate</a>
                                 </div>
                             </div>
                         </div>

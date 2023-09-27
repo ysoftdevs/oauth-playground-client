@@ -19,29 +19,28 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CVH4GP5T69"></script>
     <script src="js/analytics.js"></script>
 </head>
+
 <body>
-    <header id="page-header">
-    </header>
+    <header id="page-header"></header>
     <main>
         <div class="container">
             <div class="section intro-section">
                 <h3 class="header section-header">Welcome to OAuth 2.0 Playground</h3>
-                <p>This playground serves as an interactive platform designed to familiarize developers and students with the
-                intricacies of OAuth authentication processes. Beyond just theoretical knowledge, this playground provides practical
-                insights into the OAuth token exchange,
-                callback handling, and potential pitfalls or challenges one might face during real-world integrations. The ultimate aim
-                is to bolster
-                understanding and confidence in implementing OAuth, ensuring secure and efficient user authentication and authorization
-                in modern web applications.</p>
+                <p>
+                    This playground serves as an interactive platform designed to familiarize developers and students with the
+                    intricacies of OAuth authentication processes. Beyond just theoretical knowledge, this playground provides practical
+                    insights into the OAuth token exchange,
+                    callback handling, and potential pitfalls or challenges one might face during real-world integrations. The ultimate aim
+                    is to bolster
+                    understanding and confidence in implementing OAuth, ensuring secure and efficient user authentication and authorization
+                    in modern web applications.
+                </p>
                 <p>This project is an open-source initiative by Y Soft, as such we welcome any feedback or contributions at:</p>
                 <ul class="list">
-                    <li><b>Client side: </b><a 
-                        href="https://github.com/ysoftdevs/oauth-playground-client" target="_blank">ysoftdevs/oauth-playground-client</a></li>
-                    <li><b>Server side: </b><a
-                        href="https://github.com/ysoftdevs/oauth-playground-server" target="_blank">ysoftdevs/oauth-playground-server</a></li>
+                    <li><b>Client side: </b><a href="https://github.com/ysoftdevs/oauth-playground-client" target="_blank">ysoftdevs/oauth-playground-client</a></li>
+                    <li><b>Server side: </b><a href="https://github.com/ysoftdevs/oauth-playground-server" target="_blank">ysoftdevs/oauth-playground-server</a></li>
                 </ul>
             </div>
-
             <div class="section">
                 <h3 class="header section-header">Flows</h3>
                 <div class="divider" style="margin-bottom: 10px;"></div>
@@ -51,12 +50,14 @@
                             <div class="card-stacked flow-card">
                                 <div class="card-content">
                                     <h5>Authorization Code Flow</h5>
-                                    <p class="justified">OAuth 2.0 protocol designed for web applications that can securely store client secrets.
-                                    The application directs users to an authorization server to log in and grant permissions. Upon consent, the server
-                                    issues an authorization code. The application then exchanges this code for an access token in a server-to-server
-                                    request, using its client ID, client secret, and redirection URI. This flow ensures the access token is never directly
-                                    exposed to users, offering enhanced security. It's best suited for server-side web applications with the capability to
-                                    protect the client secret.</p>
+                                    <p class="justified">
+                                        OAuth 2.0 protocol designed for web applications that can securely store client secrets.
+                                        The application directs users to an authorization server to log in and grant permissions. Upon consent, the server
+                                        issues an authorization code. The application then exchanges this code for an access token in a server-to-server
+                                        request, using its client ID, client secret, and redirection URI. This flow ensures the access token is never directly
+                                        exposed to users, offering enhanced security. It's best suited for server-side web applications with the capability to
+                                        protect the client secret.
+                                    </p>
                                 </div>
                                 <div class="card-action">
                                     <a href="/flow/code">Try it</a>
@@ -69,12 +70,14 @@
                             <div class="card-stacked flow-card">
                                 <div class="card-content">
                                     <h5>PKCE</h5>
-                                    <p class="justified">Proof Key for Code Exchange is a security protocol for the OAuth 2.0 authorization framework, designed to prevent
-                                    interception attacks in the authorization code flow. It's especially crucial for mobile or single-page applications
-                                    where storing a client secret securely is challenging. In PKCE, the client creates a dynamic "code verifier" and its
-                                    transformed "code challenge." The server remembers this challenge, and when the authorization code is exchanged for an
-                                    access token, the client provides the original verifier. The server validates it against the stored challenge, ensuring
-                                    added security against malicious interceptions.</p>
+                                    <p class="justified">
+                                        Proof Key for Code Exchange is a security protocol for the OAuth 2.0 authorization framework, designed to prevent
+                                        interception attacks in the authorization code flow. It's especially crucial for mobile or single-page applications
+                                        where storing a client secret securely is challenging. In PKCE, the client creates a dynamic "code verifier" and its
+                                        transformed "code challenge." The server remembers this challenge, and when the authorization code is exchanged for an
+                                        access token, the client provides the original verifier. The server validates it against the stored challenge, ensuring
+                                        added security against malicious interceptions.
+                                    </p>
                                 </div>
                                 <div class="card-action">
                                     <a href="/flow/pkce">Try it</a>
@@ -87,13 +90,15 @@
                             <div class="card-stacked flow-card">
                                 <div class="card-content">
                                     <h5>Device Authorization Grant</h5>
-                                    <p class="justified">OAuth 2.0 flow optimized for devices that either lack a browser or have limited input
-                                    capabilities, such as smart TVs, game consoles, and certain IoT devices. In this flow, the device makes a request to the
-                                    authorization server and receives a unique user code and a verification URL. The user then accesses this URL on a
-                                    separate device with a browser, like a smartphone or computer, and enters the user code. After successfully logging in
-                                    and providing consent, the device polls the authorization server to obtain an access token. This method ensures a
-                                    streamlined user experience for devices with restricted input or display capabilities, allowing them to access protected
-                                    resources without the need for intricate user interactions.</p>
+                                    <p class="justified">
+                                        OAuth 2.0 flow optimized for devices that either lack a browser or have limited input
+                                        capabilities, such as smart TVs, game consoles, and certain IoT devices. In this flow, the device makes a request to the
+                                        authorization server and receives a unique user code and a verification URL. The user then accesses this URL on a
+                                        separate device with a browser, like a smartphone or computer, and enters the user code. After successfully logging in
+                                        and providing consent, the device polls the authorization server to obtain an access token. This method ensures a
+                                        streamlined user experience for devices with restricted input or display capabilities, allowing them to access protected
+                                        resources without the need for intricate user interactions.
+                                    </p>
                                 </div>
                                 <div class="card-action underConstruction">
                                     <a href="/flow/dag">Try it</a>
@@ -106,17 +111,14 @@
                             <div class="card-stacked flow-card">
                                 <div class="card-content">
                                     <h5>WebAuthn</h5>
-                                    <p class="justified">This protocol leverages public key cryptography and allows users to authenticate
-                                        using biometrics, mobile devices, or
-                                        FIDO security keys, instead of traditional passwords. When a user registers with a website, a unique
-                                        key pair is
-                                        generated: the private key stays securely on the user's device, and the public key is registered
-                                        with the website. For
-                                        subsequent logins, the website challenges the user to prove ownership of the private key, typically
-                                        by prompting for a
-                                        biometric or a physical action on a security key. WebAuthn enhances user security by reducing
-                                        reliance on easily
-                                        compromised passwords and defending against phishing attacks.</p>
+                                    <p class="justified">
+                                        This protocol leverages public key cryptography and allows users to authenticate using biometrics, mobile devices, or
+                                        FIDO security keys, instead of traditional passwords. When a user registers with a website, a unique key pair is
+                                        generated: the private key stays securely on the user's device, and the public key is registered with the website. For
+                                        subsequent logins, the website challenges the user to prove ownership of the private key, typically by prompting for a
+                                        biometric or a physical action on a security key. WebAuthn enhances user security by reducing reliance on easily
+                                        compromised passwords and defending against phishing attacks.
+                                    </p>
                                 </div>
                                 <div class="card-action">
                                     <a href="/flow/webauthn">Try it</a>
@@ -129,21 +131,15 @@
                             <div class="card-stacked flow-card">
                                 <div class="card-content">
                                     <h5>CIBA</h5>
-                                    <p class="justified">Client Initiated Backchannel Authentication is a protocol extension for OAuth 2.0,
-                                        tailored for scenarios where
-                                        the client, such as a financial institution or IoT device, initiates the authentication process
-                                        without direct user
-                                        interaction on the client's platform. This is useful for "decoupled" authentication experiences,
-                                        where, for instance, a
-                                        user might authenticate on their smartphone when prompted by a smart TV app. In CIBA, once the
-                                        client requests
-                                        authentication, the authorization server prompts the user on a previously registered device, such as
-                                        their mobile phone.
-                                        Upon successful authentication, the authorization server sends a token back to the client. This flow
-                                        provides a seamless
-                                        and secure user experience, especially in contexts where traditional OAuth 2.0 interactions might be
-                                        cumbersome or
-                                        impractical.</p>
+                                    <p class="justified">
+                                        Client Initiated Backchannel Authentication is a protocol extension for OAuth 2.0, tailored for scenarios where
+                                        the client, such as a financial institution or IoT device, initiates the authentication process without direct user
+                                        interaction on the client's platform. This is useful for "decoupled" authentication experiences, where, for instance, a
+                                        user might authenticate on their smartphone when prompted by a smart TV app. In CIBA, once the client requests
+                                        authentication, the authorization server prompts the user on a previously registered device, such as their mobile phone.
+                                        Upon successful authentication, the authorization server sends a token back to the client. This flow provides a seamless
+                                        and secure user experience, especially in contexts where traditional OAuth 2.0 interactions might be cumbersome or impractical.
+                                    </p>
                                 </div>
                                 <div class="card-action underConstruction">
                                     <i class="tiny material-icons">build</i> Under construction
@@ -156,11 +152,13 @@
                             <div class="card-stacked flow-card">
                                 <div class="card-content">
                                     <h5>Implicit Flow</h5>
-                                    <p class="justified">OAuth 2.0 Implicit Flow was designed for browser-based applications where the client cannot maintain the confidentiality
-                                    of a secret. In this flow, after user authorization, the authorization server directly redirects the browser to the
-                                    client application with an access token in the URL fragment. However, this can expose tokens in browser history or logs,
-                                    making it less secure. Consequently, the use of Implicit Flow is being discouraged in favor of the more secure
-                                    Authorization Code Flow with PKCE in recent OAuth specifications.</p>
+                                    <p class="justified">
+                                        OAuth 2.0 Implicit Flow was designed for browser-based applications where the client cannot maintain the confidentiality
+                                        of a secret. In this flow, after user authorization, the authorization server directly redirects the browser to the
+                                        client application with an access token in the URL fragment. However, this can expose tokens in browser history or logs,
+                                        making it less secure. Consequently, the use of Implicit Flow is being discouraged in favor of the more secure
+                                        Authorization Code Flow with PKCE in recent OAuth specifications.
+                                    </p>
                                 </div>
                                 <div class="card-action underConstruction">
                                     <i class="tiny material-icons">build</i> Under construction

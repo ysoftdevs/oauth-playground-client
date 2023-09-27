@@ -234,6 +234,11 @@ pre {
     text-align: center;
 }
 
+.y-colored {
+    color: #FF6600 !important;
+    font-weight: bold;
+}
+
 @media screen and (max-width: 600px) {
     .page-header {
         font-size: 1.5rem;
