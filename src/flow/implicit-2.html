@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OAuth 2.0 Playground - Authorization Code Flow (2/3)</title>
+    <meta name="description"
+        content="Dive deep into the Authorization Code Flow with our interactive guide. Understand its workings, best practices, and its role in OAuth for secure user authentication. Ideal for developers aiming for robust web app integrations." />
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link type="text/css" rel="stylesheet" href="../css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CVH4GP5T69"></script>
+    <script src="../js/analytics.js"></script>
+</head>
+
+<body>
+    <header id="page-header"></header>
+    <main>
+        <div class="container">
+            <div class="section">
+                <h3 class="header centered">Authorization Code Flow</h3>
+                <div class="circle-container circle-3">
+                    <div class="circle">
+                        1
+                    </div>
+                    <div class="line"></div>
+                    <div class="circle">
+                        2
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s4 circle-text">
+                        Build the authorization URL and redirect the user to the authorization server
+                    </div>
+                    <div class="col s4 circle-text">
+                        User is redirected back with token in query
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="col s12 m7">
+                    <div class="card horizontal">
+                        <div class="card-stacked">
+                            <div class="card-content">
+                                <h6>2. Read token from query</h6>
+                                <p>
+                                    You have now been redirected back to the application, to the page that was specified in the <b>redirect-url</b> parameter. 
+                                    In the URL you can notice, that there are addtional query parameters:
+                                </p>
+                                <pre class="code-block"><code id="queryParams"></code></pre>
+                                <p>Let's break it down...</p>
+                                <ul class="collection">
+                                    <li class="collection-item">
+                                        <p><b><span class="emphasis">state</span>=<span id="state"></span></b></p>
+                                        <p>
+                                            The state parameter is an opaque value used by the client to maintain state between the request and the callback.
+                                            Essentially, it is used to prevent Cross-Site Request Forgery (<a href="https://owasp.org/www-community/attacks/csrf" target="_blank">CSRF</a>) attacks and to ensure the response belongs to the request made by the client.
+                                    </p>
+                                    </li>
+                                    <li class="collection-item">
+                                        <p><b><span class="emphasis">access_token</span>=<span id="access_token"></span></b></p>
+                                        <p>
+                                            This is the actual access token, which allows the client application to access the user's protected resources
+                                            on the resource server (e.g., user profile, photos, etc.).
+                                        </p>
+                                    </li>
+                                </ul>
+                                <p>
+                                    As the last thing, the client should verify that state we have sent (<b><span id="sent-state"></span></b>) equivalent to the one we received back (<b><span id="received-state"></span></b>). 
+                                    If not, someone is tampering with us.
+                                </p>
+                                
+                                <p>
+                                    And this concludes the Implicit Flow. 
+                                </p>
+                                <p>
+                                    Please be aware that by using the Implicit flow, you are making your application <b>vulnerable to various attacks</b>, which is why this flow is <b>deprecated in OAuth 2.0 and removed in OAuth 2.1</b>. 
+                                </p>
+                                <p>
+                                    Just use <a href="/flow/pkce">Authorization flow with PKCE</a> everywhere you can.
+                                </p>
+                                <div class="row flow-submit-container">
+                                    <a class="waves-effect waves-light btn full-width" href="/">Try a different flow</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section centered">
+                <a href="/">[ Take me home ]</a>
+            </div>
+        </div>
+    </main>
+    <footer class="page-footer"></footer>
+    <script src="../js/load-layout.js"></script>
+    <script src="../js/cookies.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const access_token = urlParams.get("access_token");
+        const state = urlParams.get("state");
+        const sentState = getCookie("state");
+
+        $("#queryParams").text(window.location.search)
+        $("#state").text(state);
+        $("#sent-state").text(sentState);
+        $("#received-state").text(state);
+        $("#access_token").text(access_token);
+    </script>
+</body>
+</html>
