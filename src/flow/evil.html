@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OAuth 2.0 Playground - Authorization Code Flow (2/3)</title>
+    <meta name="description"
+        content="Dive deep into the Authorization Code Flow with our interactive guide. Understand its workings, best practices, and its role in OAuth for secure user authentication. Ideal for developers aiming for robust web app integrations." />
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link type="text/css" rel="stylesheet" href="../css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CVH4GP5T69"></script>
+    <script src="../js/analytics.js"></script>
+</head>
+
+<body>
+    <header id="page-header"></header>
+    <main>
+        <div class="container">
+            <div class="section">
+                <h3 class="header centered"><img src="../img/evil.webp"></h3>
+            </div>
+            
+            
+            <div class="section">
+                <div class="col s12 m7">
+                    <div class="card horizontal">
+                        <div class="card-stacked">
+                            <div class="card-content">
+                                <h6>Let's see what we have here:</h6>
+                                <pre class="code-block"><code id="queryParams"></code></pre>
+                                <p>
+                                    Out evil attacker now can use these to finish the flow on your behalf and access your data.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section centered">
+                <a href="/">[ Take me home ]</a>
+            </div>
+        </div>
+    </main>
+    <footer class="page-footer"></footer>
+    <script src="../js/load-layout.js"></script>
+    <script src="../js/cookies.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get("code");
+        const state = urlParams.get("state");
+        const sentState = getCookie("state");
+
+        $("#queryParams").text(window.location.search)
+        $("#state").text(state);
+        $("#sent-state").text(sentState);
+        $("#received-state").text(state);
+        $("#code").text(code);
+
+        function proceedToNextStep() {
+            window.location.href = "/flow/code-3" + window.location.search;
+        }
+    </script>
+</body>
+</html>
