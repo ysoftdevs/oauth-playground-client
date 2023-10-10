@@ -188,7 +188,7 @@ pre {
 }
 
 .flow-card {
-    height: 550px;
+    height: 100%;
 }
 
 .section-header {
@@ -239,19 +239,27 @@ pre {
     font-weight: bold;
 }
 
-@media screen and (max-width: 1200px) {
-    .flow-card {
-        height: 575px;
-    }
+.flows-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.flows-container .col {
+    display: flex;
+}
+
+.flows-container .col .card {
+    display: flex;
+    flex-direction: column;
+}
+
+.flows-container .col .card .card-content {
+    flex: 1;
 }
 
 @media screen and (max-width: 600px) {
     .page-header {
         font-size: 1.5rem;
-    }
-
-    .flow-card {
-        height: 100%;
     }
 
     .page-footer .footer-copyright {

@@ -44,10 +44,10 @@
             <div class="section">
                 <h3 class="header section-header">Flows</h3>
                 <div class="divider" style="margin-bottom: 10px;"></div>
-                <div class="row">
+                <div class="row flows-container">
                     <div class="col xl4 m6 s12">
                         <div class="card horizontal">
-                            <div class="card-stacked flow-card">
+                            <div class="card-stacked">
                                 <div class="card-content">
                                     <h5>Authorization Code Flow</h5>
                                     <p class="justified">
@@ -67,7 +67,7 @@
                     </div>
                     <div class="col xl4 m6 s12">
                         <div class="card horizontal">
-                            <div class="card-stacked flow-card">
+                            <div class="card-stacked">
                                 <div class="card-content">
                                     <h5>PKCE</h5>
                                     <p class="justified">
@@ -87,7 +87,7 @@
                     </div>
                     <div class="col xl4 m6 s12">
                         <div class="card horizontal">
-                            <div class="card-stacked flow-card">
+                            <div class="card-stacked">
                                 <div class="card-content">
                                     <h5>Device Authorization Grant</h5>
                                     <p class="justified">
@@ -108,7 +108,7 @@
                     </div>
                     <div class="col xl4 m6 s12">
                         <div class="card horizontal">
-                            <div class="card-stacked flow-card">
+                            <div class="card-stacked">
                                 <div class="card-content">
                                     <h5>WebAuthn</h5>
                                     <p class="justified">
@@ -128,7 +128,28 @@
                     </div>
                     <div class="col xl4 m6 s12">
                         <div class="card horizontal">
-                            <div class="card-stacked flow-card">
+                            <div class="card-stacked">
+                                <div class="card-content">
+                                    <h5>CIBA</h5>
+                                    <p class="justified">
+                                        Client Initiated Backchannel Authentication is a protocol extension for OAuth 2.0, tailored for scenarios where
+                                        the client, such as a financial institution or IoT device, initiates the authentication process without direct user
+                                        interaction on the client's platform. This is useful for "decoupled" authentication experiences, where, for instance, a
+                                        user might authenticate on their smartphone when prompted by a smart TV app. In CIBA, once the client requests
+                                        authentication, the authorization server prompts the user on a previously registered device, such as their mobile phone.
+                                        Upon successful authentication, the authorization server sends a token back to the client. This flow provides a seamless
+                                        and secure user experience, especially in contexts where traditional OAuth 2.0 interactions might be cumbersome or impractical.
+                                    </p>
+                                </div>
+                                <div class="card-action underConstruction">
+                                    <i class="tiny material-icons">build</i> Under construction
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col xl4 m6 s12">
+                        <div class="card horizontal">
+                            <div class="card-stacked">
                                 <div class="card-content">
                                     <h5>Implicit Flow (deprecated)</h5>
                                     <p class="justified">
