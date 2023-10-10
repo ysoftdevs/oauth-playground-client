@@ -101,7 +101,8 @@
                                         <p>
                                             Scopes requested by the client. Scopes are used to limit the access of the access
                                             token. In this case, we are requesting the <b>offline_access</b> scope,
-                                            which allows the client to obtain a refresh token.
+                                            which allows the client to obtain a refresh token, <b>photos</b> to access photos
+                                            and <b>files</b> to have access to user files.
                                         </p>
                                     </li>
                                     <li class="collection-item">
@@ -192,7 +193,7 @@
 
         const responseType = "code";
         const redirectUri = getRedirectUri();
-        const scope = "offline_access";
+        const scope = "offline_access%20photos%20files";
         const state = generateSessionState();
         const codeChallenge = getCookie("code_challenge");
 
