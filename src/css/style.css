@@ -239,6 +239,12 @@ pre {
     font-weight: bold;
 }
 
+@media screen and (max-width: 1200px) {
+    .flow-card {
+        height: 575px;
+    }
+}
+
 @media screen and (max-width: 600px) {
     .page-header {
         font-size: 1.5rem;
