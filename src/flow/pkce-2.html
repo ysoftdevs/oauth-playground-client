@@ -49,7 +49,7 @@
                         Build the authorization URL and redirect the user to the authorization server
                     </div>
                     <div class="col s3 circle-text">
-                        After the user is redirected back to the client, verify the state
+                        The user is redirected back to the client
                     </div>
                     <div class="col s3 circle-text">
                         Exchange the authorization code and code verifier for an access token
@@ -103,7 +103,7 @@
                                             token. In this case, we are requesting access to <b>photos</b> and <b>files</b>.
                                         </p>
                                     </li>
-                                    <li class="collection-item">
+                                    <!-- <li class="collection-item">
                                         <p><b><span class="emphasis">state</span>=<span id="state"></span></b></p>
                                         <p>
                                             State parameter. This is an <b>optional parameter</b> that the client can use to maintain
@@ -111,7 +111,7 @@
                                             user back to the client, allowing the client to verify that the response is coming from the
                                             server and not a malicious third party (<a href="https://owasp.org/www-community/attacks/csrf" target="_blank">CSRF attack</a>).
                                         </p>
-                                    </li>
+                                    </li> -->
                                     <li class="collection-item">
                                         <p><b><span class="emphasis">code_challenge</span>=<span id="codeChallenge"></span></b></p>
                                         <p>
@@ -159,7 +159,7 @@
                 + "&" + "client_id=" + getClientId() 
                 + "&" + "redirect_uri=" + redirectUri 
                 + "&" + "scope=" + scope 
-                + "&" + "state=" + state
+                //+ "&" + "state=" + state
                 + "&" + "code_challenge=" + codeChallenge
                 + "&" + "code_challenge_method=S256";
         }
@@ -170,7 +170,7 @@
                 + "&client_id=" + getClientId() + "\n"
                 + "&redirect_uri=" + redirectUri + "\n"
                 + "&scope=" + scope + "\n"
-                + "&state=" + state + "\n"
+                //+ "&state=" + state + "\n"
                 + "&code_challenge=" + codeChallenge + "\n"
                 + "&code_challenge_method=S256";
             
@@ -191,7 +191,7 @@
 
         const responseType = "code";
         const redirectUri = getRedirectUri();
-        const scope = "photos%20files";
+        const scope = "photos files";
         const state = generateSessionState();
         const codeChallenge = getCookie("code_challenge");
 

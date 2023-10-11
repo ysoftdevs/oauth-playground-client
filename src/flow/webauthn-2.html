@@ -44,7 +44,7 @@
                         Build the authorization URL and redirect the user to the authorization server
                     </div>
                     <div class="col s4 circle-text">
-                        After the user is redirected back to the client, verify that the state matches
+                        The user is redirected back to the client
                     </div>
                     <div class="col s4 circle-text">
                         Exchange the authorization code for an access token
@@ -56,7 +56,7 @@
                     <div class="card horizontal">
                         <div class="card-stacked">
                             <div class="card-content">
-                                <h6>2. Verify the state parameter</h6>
+                                <h6>2. Parse response</h6>
                                 <p>
                                     You have now been redirected back to the application, to the page that was specified in the <b>redirect-url</b> parameter. In the URL 
                                     you can notice, that there are addtional query parameters:
@@ -64,7 +64,7 @@
                                 <pre class="code-block"><code id="queryParams"></code></pre>
                                 <p>Let's break it down...</p>
                                 <ul class="collection">
-                                    <li class="collection-item">
+                                    <li class="collection-item has-state">
                                         <p><b><span class="emphasis">state</span>=<span id="state"></span></b></p>
                                         <p>
                                             The state parameter is an opaque value used by the client to maintain state between the request and the callback.
@@ -82,16 +82,20 @@
                                         </p>
                                     </li>
                                 </ul>
-                                <p>
+                                <p class="has-state">
                                     Now we have everything necessary to obtain token for the user. But is the state we have sent (<b><span id="sent-state"></span></b>) equivalent to the one we received back (<b><span id="received-state"></span></b>)?
                                 </p>
-                                <div class="row flow-submit-container">
+                                <div class="row flow-submit-container has-state">
                                     <div class="col m6 s12" style="margin-bottom: 5px;">
                                         <a class="waves-effect waves-light btn btn-success full-width" onclick="proceedToNextStep()">States are matching</a>
                                     </div>
                                     <div class="col m6 s12">
                                         <a class="waves-effect waves-light btn btn-error full-width" href="/flow/code">States are not matching</a>
                                     </div>
+                                </div>
+                                
+                                <div class="row flow-submit-container no-state">
+                                    <a id="get-token-btn" class="waves-effect waves-light btn full-width" onClick="proceedToNextStep()">Continue</a>
                                 </div>
                             </div>
                         </div>
@@ -112,15 +116,18 @@
         const state = urlParams.get("state");
         const sentState = getCookie("webauth-state");
 
-        if (!code || !state || !sentState) {
-            window.location = "/flow/expired";
-        }
+        // if (!code || !state || !sentState) {
+        //     window.location = "/flow/expired";
+        // }
 
         $("#queryParams").text(window.location.search)
         $("#state").text(state);
         $("#sent-state").text(sentState);
         $("#received-state").text(state);
         $("#code").text(code);
+
+        $(".has-state").toggle(!!state);
+        $(".no-state").toggle(!state);
 
         function proceedToNextStep() {
             window.location.href = "/flow/webauthn-3" + window.location.search;

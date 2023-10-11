@@ -44,7 +44,7 @@
                         Build the authorization URL and redirect the user to the authorization server
                     </div>
                     <div class="col s4 circle-text">
-                        After the user is redirected back to the client, verify that the state matches
+                        The user is redirected back to the client
                     </div>
                     <div class="col s4 circle-text">
                         Exchange the authorization code for an access token
@@ -100,7 +100,7 @@
                                             token. In this case, we are requesting access to <b>photos</b> and <b>files</b>.
                                         </p>
                                     </li>
-                                    <li class="collection-item">
+                                    <!-- <li class="collection-item">
                                         <p><b><span class="emphasis">state</span>=<span id="state"></span></b></p>
                                         <p>
                                             State parameter. This is an <b>optional parameter</b> that the client can use to maintain
@@ -108,7 +108,7 @@
                                             redirecting the user back to the client, allowing the client to verify that the response is coming from the
                                             server and not a malicious third party (<a href="https://owasp.org/www-community/attacks/csrf" target="_blank">CSRF attack</a>).
                                         </p>
-                                    </li>
+                                    </li> -->
                                 </ul>
                                 <p>
                                     All that we now need to do is click the button below and login with our credentials. 
@@ -144,7 +144,8 @@
                 + "&" + "client_id=" + getClientId() 
                 + "&" + "redirect_uri=" + redirectUri 
                 + "&" + "scope=" + scope 
-                + "&" + "state=" + state;
+                //+ "&" + "state=" + state
+                ;
         }
 
         function fillExample() {
@@ -153,7 +154,8 @@
                 + "&client_id=" + getClientId() + "\n"
                 + "&redirect_uri=" + redirectUri + "\n"
                 + "&scope=" + scope + "\n"
-                + "&state=" + state;
+                //+ "&state=" + state
+                ;
             
             $("#requestUriExample").text(requestExample);
             $("#baseUrl").text(baseUrl);
@@ -172,7 +174,7 @@
 
         const responseType = "code";
         const redirectUri = getRedirectUri();
-        const scope = "photos%20files";
+        const scope = "photos files";
         const state = generateSessionState();
         setCookie("state", state, 5);
 

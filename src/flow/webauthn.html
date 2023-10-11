@@ -44,7 +44,7 @@
                         Build the authorization URL and redirect the user to the authorization server
                     </div>
                     <div class="col s4 circle-text">
-                        After the user is redirected back to the client, verify that the state matches
+                        The user is redirected back to the client
                     </div>
                     <div class="col s4 circle-text">
                         Exchange the authorization code for an access token
@@ -58,11 +58,17 @@
                             <div class="card-content">
                                 <h6>1. Build the Authorization URL</h6>
                                 <p>
-                                    In order to initiate the <b>WebAuthn</b>, we proceed the same way as we would if we would be using <b>Authorization Code Flow</b> we need to build the
-                                    authorization URL and redirect the user to the authorization server. All the passwordless logic is handled completely by the authorization server. The URL is constructed as follows:
+                                    WebAuthn is not an OAuth grant, but rather a new browser API to facilitate passwordless login. 
+                                </p>
+                                <p>It can be used with any grant that renders a login form, 
+                                    such as <a href="/flow/code">Authorization Code Flow</a> or <a href="/flow/dag">Device Authorization Grant</a>, or even outside OAuth for your application's custom login.
+                                </p> 
+                                <p>
+                                    For this demostration, we'll use an <a href="/flow/code">Authorization Code Flow</a> with a custom URL. In practice, if and when Webauthn is used instead of passwords passwords depends on the Authority Server settings.
+                                </p>
                                 </p>
                                 <pre class="code-block"><code id="requestUriExample"></code></pre>
-                                <p>Let's break it down...</p>
+                                <!-- <p>Let's break it down...</p>
                                 <ul class="collection">
                                     <li class="collection-item">
                                         <p><b><span id="baseUrl"></span></b></p>
@@ -111,7 +117,7 @@
                                             server and not a malicious third party (<a href="https://owasp.org/www-community/attacks/csrf" target="_blank">CSRF attack</a>).
                                         </p>
                                     </li>
-                                </ul>
+                                </ul> -->
                                 <p>
                                     All that we now need to do is click the button below and perform the <b>Web Authentication Flow</b> on the server. After your account will be successfully verified, you will be redirected back to this playground, to the URL we have specified in the <b>redirect_uri</b> query parameter of the request.
                                 </p>
@@ -143,7 +149,8 @@
                 + "&" + "client_id=" + getClientId()
                 + "&" + "redirect_uri=" + redirectUri
                 + "&" + "scope=" + scope
-                + "&" + "state=" + state;
+                //+ "&" + "state=" + state
+                ;
         }
 
         function fillExample() {
@@ -152,7 +159,8 @@
                 + "&client_id=" + getClientId() + "\n"
                 + "&redirect_uri=" + redirectUri + "\n"
                 + "&scope=" + scope + "\n"
-                + "&state=" + state;
+                //+ "&state=" + state
+                ;
 
             $("#requestUriExample").text(requestExample);
             $("#baseUrl").text(authUrl);
@@ -172,7 +180,7 @@
         const authUrl = baseUrl + "/passwordless"
         const responseType = "code";
         const redirectUri = getRedirectUri();
-        const scope = "photos%20files";
+        const scope = "photos files";
         const state = generateSessionState();
         setCookie("webauth-state", state, 5);
 
