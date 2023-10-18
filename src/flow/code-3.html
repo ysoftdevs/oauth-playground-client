@@ -79,6 +79,12 @@
                                         </p>
                                     </li>
                                     <li class="collection-item">
+                                        <p><b><span class="emphasis">client_secret</span>=<span id="clientSecret"></span></b></p>
+                                        <p>
+                                            Client secret. Note that this flow is wrongly used for a JavaScript application, in which anyone can read the secret.
+                                        </p>
+                                    </li>
+                                    <li class="collection-item">
                                         <p><b><span class="emphasis">redirect_uri</span>=<span id="redirectUri"></span></b></p>
                                         <p>The redirect URI</p>
                                     </li>
@@ -160,6 +166,7 @@
     <script src="../js/env-config.js"></script>
     <script>
         const tokenEndpoint = baseUrl + "/token";
+        const secret = "s3cr3t";
         const code = new URLSearchParams(window.location.search).get('code');
 
         if (!code) {
@@ -171,6 +178,7 @@
                 "grant_type=authorization_code" + "\n"
                 + "&client_id=" + getClientId() + "\n"
                 + "&redirect_uri=" + getRedirectUri() + "\n"
+                + "&client_secret=" + secret + "\n"
                 + "&code=" + code;
 
             $("#requestUriExample").text(tokenEndpoint);
@@ -179,6 +187,7 @@
             $("#tokenUrl").text(tokenEndpoint);
             $("#grantType").text("authorization_code");
             $("#clientId").text(getClientId());
+            $("#clientSecret").text(secret);
             $("#redirectUri").text(getRedirectUri());
             $("#code").text(code);
         }
@@ -193,6 +202,7 @@
             const bodyData = new URLSearchParams();
             bodyData.append('grant_type', 'authorization_code');
             bodyData.append('client_id', getClientId());
+            bodyData.append('client_secret', secret);
             bodyData.append('redirect_uri', getRedirectUri());
             bodyData.append('code', code);
 

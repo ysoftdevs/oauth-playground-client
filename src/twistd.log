@@ -1,0 +1,18 @@
+2023-10-02T11:26:21+0200 [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 23.8.0 (/home/linuxbrew/.linuxbrew/opt/python@3.11/bin/python3.11 3.11.3) starting up.
+2023-10-02T11:26:21+0200 [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2023-10-02T11:26:21+0200 [-] Site starting on 8080
+2023-10-02T11:26:21+0200 [twisted.web.server.Site#info] Starting factory <twisted.web.server.Site object at 0x7fbbc18a7ad0>
+2023-10-02T11:27:51+0200 [-] Received SIGTERM, shutting down.
+2023-10-02T11:27:51+0200 [-] (TCP Port 8080 Closed)
+2023-10-02T11:27:51+0200 [twisted.web.server.Site#info] Stopping factory <twisted.web.server.Site object at 0x7fbbc18a7ad0>
+2023-10-02T11:27:51+0200 [-] Main loop terminated.
+2023-10-02T11:27:51+0200 [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
+2023-10-02T11:27:53+0200 [twisted.scripts._twistd_unix.UnixAppLogger#info] twistd 23.8.0 (/home/linuxbrew/.linuxbrew/opt/python@3.11/bin/python3.11 3.11.3) starting up.
+2023-10-02T11:27:53+0200 [twisted.scripts._twistd_unix.UnixAppLogger#info] reactor class: twisted.internet.epollreactor.EPollReactor.
+2023-10-02T11:27:53+0200 [-] Site starting on 8080
+2023-10-02T11:27:53+0200 [twisted.web.server.Site#info] Starting factory <twisted.web.server.Site object at 0x7f2dd4237a10>
+2023-10-02T11:28:54+0200 [-] Received SIGTERM, shutting down.
+2023-10-02T11:28:54+0200 [-] (TCP Port 8080 Closed)
+2023-10-02T11:28:54+0200 [twisted.web.server.Site#info] Stopping factory <twisted.web.server.Site object at 0x7f2dd4237a10>
+2023-10-02T11:28:54+0200 [-] Main loop terminated.
+2023-10-02T11:28:54+0200 [twisted.scripts._twistd_unix.UnixAppLogger#info] Server Shut Down.
