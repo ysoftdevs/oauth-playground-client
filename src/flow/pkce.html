@@ -128,8 +128,8 @@
             const data = encoder.encode(verifier);
             const digest = await crypto.subtle.digest('SHA-256', data);
             const base64UrlEncoded = btoa(String.fromCharCode(...new Uint8Array(digest)))
-                .replace('+', '-')
-                .replace('/', '_')
+                .replaceAll('+', '-')
+                .replaceAll('/', '_')
                 .replace(/=+$/, '');
 
             $('#codeChallenge').val(base64UrlEncoded);
